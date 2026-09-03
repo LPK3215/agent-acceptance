@@ -44,7 +44,7 @@ Agent 项目开发周期结束时的"工程验收 + 定档体检单"。判据按
 
 | 你要做 | 命令 | 说明 |
 |---|---|---|
-| 一键检验 | `python docs/verify.py` | 机械项自查：FAIL 为 0 即放行；WARN 仅外部官方链接，按 R3 人工确认 |
+| 一键检验 | `python docs/verify.py` | 机械项自查（结构、链接、字符、**判点引用完整性**、**地图-正文小节对齐**、文件名/标题主题词三方一致）：FAIL 为 0 即放行；WARN 仅外部官方链接，按 R3 人工确认 |
 | 一键发布（打包 zip） | `python scripts/release.py package` | 先校验，通过后打 `dist/agent-acceptance-<版本>.zip`（zip 顶层即技能目录，解压即用） |
 | 一键发布（装到本机 CodeBuddy） | `python scripts/release.py install` | 先校验，通过后同步到 `~/.codebuddy/skills/agent-acceptance/` |
 | 一条龙（校验+打包+装机） | `python scripts/release.py` 或 `python scripts/release.py all` | 推荐给日常改完发布用 |

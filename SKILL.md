@@ -19,7 +19,7 @@ metadata:
 
 ## 本技能结构
 
-> 本包采用 Agent Skills 官方规范（[specification](https://agentskills.io/specification)）的标准形态：技能 = 一个目录 = `SKILL.md`（frontmatter 元数据 + 指令入口）+ `references/`（按需加载的参考文档）。三层渐进式披露：元数据常驻（发现用），入口正文触发时加载（路由用），`references/` 各章按需读取（执行用）。引用保持一层深——只允许 `SKILL.md` 直达 `references/` 各正文，references 内同目录互链，不产生第三层。
+> 本包采用 Agent Skills 官方规范（[specification](https://agentskills.io/specification)）的标准形态：技能 = 一个目录 = `SKILL.md`（frontmatter 元数据 + 指令入口）+ `skill.json`（与 frontmatter 双写同步的机器可读元数据）+ `references/`（按需加载的参考文档）。三层渐进式披露：元数据常驻（发现用），入口正文触发时加载（路由用），`references/` 各章按需读取（执行用）。引用保持一层深——只允许 `SKILL.md` 直达 `references/` 各正文，references 内同目录互链，不产生第三层。
 
 **两级平铺，唯一入口直达正文**：
 
@@ -78,6 +78,6 @@ metadata:
 
 ## 打包与维护边界
 
-- 打包单元 = 本技能文件夹整体（`agent-acceptance/` = `SKILL.md` 入口 + `references/` 判据正文）；本文件夹不依赖任何外部文件。
+- 打包单元 = 本技能文件夹整体（`agent-acceptance/` = `SKILL.md` 入口 + `skill.json` 元数据 + `references/` 判据正文）；本文件夹不依赖任何外部文件。
 - 改判据只改 `references/` 对应章正文，不动章号与判点号（判点号是稳定主键，正文互引用它）；新增检查面先过 [00-global-map](references/00-global-map.md) 扩容三关再落正文。
 - 技能作者的写作纪律、链接白名单、打包前自查清单等维护文档收在本目录 `docs/`（作者与维护者专用，执行验收无需读取；技能生态发布可不随包，但随项目仓库保留）。

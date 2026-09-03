@@ -27,7 +27,7 @@ README = ROOT / "README.md"
 REF_DIR = ROOT / "references"
 SKILL_JSON = ROOT / "skill.json"
 
-# references/ 已知文件登记（打包单元 = SKILL.md + references/，不允许多出不缺漏）
+# references/ 已知文件登记（打包单元 = SKILL.md + skill.json + references/，不允许多出不缺漏）
 KNOWN_REF_FILES = {
     "00-global-map.md",
     "01-项目定档与边界.md",
@@ -272,6 +272,60 @@ def check_title_topic(path, map_text):
     note("FAIL", "%s：00-global-map.md 中找不到 `## %s. ...` 对应小节" % (path.name, chap))
 
 
+def collect_checkpoint_ids():
+    """跨章判点全集：全部 references 正文表格首列 `| N.M.K |` 的判点号。
+
+    判点号是稳定主键（docs/00：区内引用写纯文本 x.y.z，不链文件名），正文互引
+    与跨章引用必须指向已登记判点，防止判点漂移后引用悬空。
+    """
+    ids = set()
+    for path in sorted(REF_DIR.glob("*.md")):
+        if path.name == "00-global-map.md":
+            continue
+        text = path.read_text(encoding="utf-8")
+        ids |= {m.group(1) for m in re.finditer(r"^\|\s*(\d+\.\d+\.\d+)\s*\|", text, re.M)}
+    return ids
+
+
+def check_ref_ids(path, text, universe):
+    """判点引用守卫：正文（非标题行）出现的 x.y.z 判点号必须存在于判点全集。
+
+    排除两类伪判点：表格首列（定义处，本身在全集）、两位数版本/日期（后段不齐）。
+    用于防漂移——改判点号时漏改的引用在此报 FAIL。
+    """
+    for ln, line in enumerate(text.splitlines(), 1):
+        if line.startswith("#"):
+            continue
+        for m in re.finditer(r"(?<![\d.])(\d+)\.(\d+)\.(\d+)(?![\d.])", line):
+            a, b, c = map(int, m.groups())
+            if not (1 <= a <= 10) or b < 1 or c < 1:
+                continue       # 非章号段 / 版本号 / 无意义编号，跳过
+            cid = "%d.%d.%d" % (a, b, c)
+            if cid not in universe:
+                note("FAIL", "%s：引用的判点号 %s 在判点全集中不存在（改判点号后漏同步引用？）:%d"
+                     % (path.name, cid, ln))
+
+
+def check_map_section(path, text, map_text):
+    """地图 ↔ 正文小节双向对齐：NN- 章正文的 `## N.M` 小节必须在地图出现且一一对应。
+
+    00-global-map.md 承诺自己是"章树全貌"；正文新增/删除小节若不同步地图，
+    全貌导航会失真——此处对 NN- 编号章做双向差集检查。
+    """
+    m = re.match(r"^(\d{2})-", path.name)
+    if not m:
+        return
+    chap = m.group(1)
+    body_secs = set(re.findall(r"^##\s*(\d+\.\d+)\b", text, re.M))
+    body_secs = {s for s in body_secs if s.startswith(chap + ".")}
+    map_secs = set(re.findall(r"^#{2,4}\s*(\d+\.\d+)\b", map_text, re.M))
+    map_secs = {s for s in map_secs if s.startswith(chap + ".")}
+    for s in sorted(body_secs - map_secs, key=lambda x: [int(v) for v in x.split(".")]):
+        note("FAIL", "%s：正文小节 %s 未出现在 00-global-map.md（地图漏登记）" % (path.name, s))
+    for s in sorted(map_secs - body_secs, key=lambda x: [int(v) for v in x.split(".")]):
+        note("FAIL", "%s：地图小节 %s 在本章正文中不存在（地图冗余或正文缺节）" % (path.name, s))
+
+
 # ---------- 主流程 ----------
 
 def main():
@@ -329,6 +383,7 @@ def main():
 
     # C. 逐运行时正文文件扫描
     map_text = (REF_DIR / "00-global-map.md").read_text(encoding="utf-8")
+    universe = collect_checkpoint_ids()
     for path in runtime_targets():
         if not path.exists():
             note("FAIL", "缺失文件：%s" % path)
@@ -341,6 +396,9 @@ def main():
             check_toc(path)
             check_chapter_number(path)
             check_title_topic(path, map_text)
+        if path.name != "00-global-map.md":
+            check_ref_ids(path, text, universe)
+            check_map_section(path, text, map_text)
 
     # 汇总
     fails = [r for r in results if r[0] == "FAIL"]
