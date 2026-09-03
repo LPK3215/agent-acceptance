@@ -30,10 +30,10 @@ SKILL_JSON = ROOT / "skill.json"
 # references/ 已知文件登记（打包单元 = SKILL.md + skill.json + references/，不允许多出不缺漏）
 KNOWN_REF_FILES = {
     "00-global-map.md",
-    "01-项目定档与边界.md",
-    "02-本体构成.md",
+    "01-范围、形态与档位.md",
+    "02-系统组成与真实接线.md",
     "03-考卷与评测集.md",
-    "04-判分器.md",
+    "04-判分规则.md",
     "05-指标与目标值.md",
     "06-运行可观测.md",
     "07-安全与权限底线.md",
