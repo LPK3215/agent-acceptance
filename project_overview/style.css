@@ -431,13 +431,36 @@ html[data-theme="light"] .btn-primary { color: #fff; }
 .arrow-fill { fill: var(--text-dim); }
 
 .arch-layer, .arch-node { cursor: pointer; transition: opacity .2s ease; }
-.arch-layer:hover, .arch-node:hover { opacity: .82; }
+.arch-layer:hover, .arch-node:hover { opacity: .92; }
 .n-p0 { fill: color-mix(in srgb, var(--accent-2) 16%, transparent); stroke: var(--accent-2); stroke-width: 1.4; }
 .n-p1 { fill: color-mix(in srgb, var(--accent-2) 14%, transparent); stroke: var(--accent-2); stroke-width: 1.4; }
 .n-p2 { fill: color-mix(in srgb, var(--violet) 16%, transparent); stroke: var(--violet); stroke-width: 1.4; }
 .n-p3 { fill: color-mix(in srgb, var(--accent-3) 14%, transparent); stroke: var(--accent-3); stroke-width: 1.4; }
 .n-danger { fill: color-mix(in srgb, var(--danger) 16%, transparent); stroke: var(--danger); stroke-width: 1.6; }
 .n-final { fill: color-mix(in srgb, var(--accent) 18%, transparent); stroke: var(--accent); stroke-width: 1.6; }
+
+/* SVG1 三层的描边色（颜色走主题变量，深浅主题自动适配） */
+.st-blue  { stroke: var(--accent-2); }
+.st-amber { stroke: var(--accent); }
+.st-green { stroke: var(--accent-3); }
+
+/* hover 高亮：描边加粗 + 同色系发光（利用 filter:drop-shadow，节点随主题变色） */
+.arch-node:hover > rect, .arch-layer:hover > rect { stroke-width: 2.4; }
+.arch-node:hover > .n-p0, .arch-node:hover > .n-p1, .arch-layer:hover > .st-blue {
+  filter: drop-shadow(0 0 9px color-mix(in srgb, var(--accent-2) 55%, transparent));
+}
+.arch-node:hover > .n-p2 {
+  filter: drop-shadow(0 0 9px color-mix(in srgb, var(--violet) 55%, transparent));
+}
+.arch-node:hover > .n-p3, .arch-layer:hover > .st-green {
+  filter: drop-shadow(0 0 9px color-mix(in srgb, var(--accent-3) 55%, transparent));
+}
+.arch-node:hover > .n-danger {
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--danger) 55%, transparent));
+}
+.arch-node:hover > .n-final, .arch-layer:hover > .st-amber {
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--accent) 60%, transparent));
+}
 
 .svg-tooltip {
   position: absolute; z-index: 5; max-width: 320px; padding: 9px 12px;

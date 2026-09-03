@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>agent-acceptance · 项目全景观览</title>
 <meta name="description" content="agent-acceptance：AI Agent 项目的工程验收与定档标准，全景观览页。">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%230369a1'/%3E%3Cstop offset='1' stop-color='%230f172a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Cpath d='M10 16.5l4.5 4.5L22.5 12' stroke='%23f0b429' stroke-width='3.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -135,21 +136,21 @@
 
   <div class="grid grid-3">
     <div class="card">
-      <div class="card-icon" style="--ic:#f59e0b">
+      <div class="card-icon" style="--ic:var(--accent)">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.2-3 4"></path><path d="M12 17h.01"></path></svg>
       </div>
       <h3>拿不拿得出手</h3>
       <p>先证是否真需要 Agent（过度设计四问），再查 13 大组成模块是否齐备、各部件是否<strong>真实接线</strong>——不是"文档里画了"就算有。</p>
     </div>
     <div class="card">
-      <div class="card-icon" style="--ic:#38bdf8">
+      <div class="card-icon" style="--ic:var(--accent-2)">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 4v6c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6l7-4z"></path><path d="M9 12l2 2 4-4"></path></svg>
       </div>
       <h3>放不放得出去</h3>
       <p>评测资产（考卷 / 判分 / 目标值）可信、运行过程可观测可回放、安全底线不触红线、交付证据成链——逐层给证据，不给印象分。</p>
     </div>
     <div class="card">
-      <div class="card-icon" style="--ic:#a78bfa">
+      <div class="card-icon" style="--ic:var(--violet)">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><rect x="7" y="12" width="3" height="6"></rect><rect x="12.5" y="8" width="3" height="10"></rect><rect x="18" y="4" width="3" height="14"></rect></svg>
       </div>
       <h3>该给什么档</h3>
@@ -218,13 +219,13 @@
         <svg viewBox="0 0 960 470" class="arch-svg" role="img" aria-label="技能包三层渐进式披露结构图">
           <defs>
             <linearGradient id="gL1" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#2563eb"/>
+              <stop offset="0%" style="stop-color:var(--accent-2);stop-opacity:.85"/><stop offset="100%" style="stop-color:var(--accent-2);stop-opacity:.15"/>
             </linearGradient>
             <linearGradient id="gL2" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f97316"/>
+              <stop offset="0%" style="stop-color:var(--accent);stop-opacity:.85"/><stop offset="100%" style="stop-color:var(--accent);stop-opacity:.15"/>
             </linearGradient>
             <linearGradient id="gL3" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#059669"/>
+              <stop offset="0%" style="stop-color:var(--accent-3);stop-opacity:.85"/><stop offset="100%" style="stop-color:var(--accent-3);stop-opacity:.15"/>
             </linearGradient>
             <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" class="arrow-fill"/>
@@ -233,7 +234,7 @@
 
           <g class="arch-layer" data-tip="元数据常驻，用于技能发现：skill.json + SKILL.md frontmatter（name / description / version / author）">
             <rect x="60" y="40" width="840" height="96" rx="16" fill="url(#gL1)" opacity="0.16"/>
-            <rect x="60" y="40" width="840" height="96" rx="16" fill="none" stroke="#38bdf8" stroke-width="1.6"/>
+            <rect x="60" y="40" width="840" height="96" rx="16" fill="none" class="st-blue" stroke-width="1.6"/>
             <text x="90" y="76" class="svg-tag">第 1 层 · 常驻（发现用）</text>
             <text x="90" y="106" class="svg-h">元数据</text>
             <text x="220" y="106" class="svg-p">skill.json + SKILL.md frontmatter（name / description / version / author / keywords）</text>
@@ -243,7 +244,7 @@
 
           <g class="arch-layer" data-tip="唯一入口：说明 + 章级路由索引。每行直达一章正文，中间不经任何第二层索引。">
             <rect x="60" y="180" width="840" height="112" rx="16" fill="url(#gL2)" opacity="0.16"/>
-            <rect x="60" y="180" width="840" height="112" rx="16" fill="none" stroke="#fbbf24" stroke-width="1.6"/>
+            <rect x="60" y="180" width="840" height="112" rx="16" fill="none" class="st-amber" stroke-width="1.6"/>
             <text x="90" y="216" class="svg-tag">第 2 层 · 触发时加载（路由用）</text>
             <text x="90" y="246" class="svg-h">SKILL.md 正文</text>
             <text x="220" y="246" class="svg-p">一句话定位 · 三种跑法 · 执行硬协议 · 章级路由索引表</text>
@@ -254,7 +255,7 @@
 
           <g class="arch-layer" data-tip="判据正文按需加载：00 全局地图 + 01-10 十章 + 附录 A。357 个判点，全部自含。">
             <rect x="60" y="336" width="840" height="112" rx="16" fill="url(#gL3)" opacity="0.16"/>
-            <rect x="60" y="336" width="840" height="112" rx="16" fill="none" stroke="#34d399" stroke-width="1.6"/>
+            <rect x="60" y="336" width="840" height="112" rx="16" fill="none" class="st-green" stroke-width="1.6"/>
             <text x="90" y="372" class="svg-tag">第 3 层 · 按需读取（执行用）</text>
             <text x="90" y="402" class="svg-h">references/</text>
             <text x="220" y="402" class="svg-p">00-全局地图（平级全貌，非必经） · 01-10 章正文 · 附录 A 元规则</text>
@@ -282,43 +283,46 @@
           </defs>
 
           <g class="arch-node" data-tip="章 1 定档问卷：过度设计四问 + 形态 + 技术栈 + 边界 + 成功标准 + 自主度 G1-G4，输出定档记录，并决定后续哪些章上场。">
-            <rect x="40" y="30" width="880" height="86" rx="14" class="n-p0"/>
-            <text x="66" y="62" class="svg-h">P0 · 章 1　定档问卷（必经入口 = 分流器）</text>
-            <text x="66" y="88" class="svg-p">1.1 是否真需要 Agent　1.2 载体形态　1.3 技术栈　1.4 目标边界　1.5 成功标准　1.6 自主度 G1-G4</text>
-            <text x="66" y="108" class="svg-p dim">输出：定档记录（8 项，含输出目录声明）· 23 个判点</text>
+            <rect x="40" y="28" width="880" height="80" rx="14" class="n-p0"/>
+            <text x="66" y="56" class="svg-h">P0 · 章 1　定档问卷（必经入口 = 分流器）</text>
+            <text x="66" y="80" class="svg-p">1.1 是否真需要 Agent　1.2 载体形态　1.3 技术栈　1.4 目标边界　1.5 成功标准　1.6 自主度 G1-G4</text>
+            <text x="66" y="98" class="svg-p dim">输出：定档记录（8 项，含输出目录声明）· 23 个判点</text>
           </g>
 
-          <path d="M480 116 L480 146" class="svg-arrow" marker-end="url(#arrow2)"/>
-          <text x="492" y="136" class="svg-lab">不需要 Agent → 拒绝立项，建议 Workflow / RAG</text>
+          <path d="M480 108 L480 132" class="svg-arrow" marker-end="url(#arrow2)"/>
+          <text x="492" y="124" class="svg-lab">不需要 Agent → 拒绝立项，建议 Workflow / RAG</text>
 
           <g class="arch-node" data-tip="章 2 系统组成与真实接线：13 大模块逐块查齐不齐、接没接线。68 个判点，是判点最多的一章。">
-            <rect x="40" y="156" width="880" height="76" rx="14" class="n-p1"/>
-            <text x="66" y="188" class="svg-h">P1 · 章 2　系统组成与真实接线</text>
-            <text x="66" y="214" class="svg-p">模型 / 上下文 / 循环 / 规划 / 工具 / 记忆 / 反思 / RAG / 解析 / 数据 / 编排 / Harness 八元件 / 多 Agent</text>
+            <rect x="40" y="136" width="880" height="66" rx="14" class="n-p1"/>
+            <text x="66" y="162" class="svg-h">P1 · 章 2　系统组成与真实接线</text>
+            <text x="66" y="186" class="svg-p">模型 / 上下文 / 循环 / 规划 / 工具 / 记忆 / 反思 / RAG / 解析 / 数据 / 编排 / Harness 八元件 / 多 Agent</text>
           </g>
 
-          <path d="M480 232 L480 262" class="svg-arrow" marker-end="url(#arrow2)"/>
+          <path d="M480 202 L480 226" class="svg-arrow" marker-end="url(#arrow2)"/>
 
           <g class="arch-node" data-tip="章 3-5 评测资产三段：考卷（拿什么验）→ 判分规则（怎么算对）→ 指标与目标值（多少算好）。">
-            <rect x="40" y="272" width="880" height="76" rx="14" class="n-p2"/>
-            <text x="66" y="304" class="svg-h">P2 · 章 3-5　评测资产</text>
-            <text x="66" y="330" class="svg-p">3 考卷与评测集（41）　4 判分规则（39）　5 指标与目标值（30）　—— 括号内为判点数</text>
+            <rect x="40" y="230" width="880" height="66" rx="14" class="n-p2"/>
+            <text x="66" y="256" class="svg-h">P2 · 章 3-5　评测资产</text>
+            <text x="66" y="280" class="svg-p">3 考卷与评测集（41）　4 判分规则（39）　5 指标与目标值（30）　—— 括号内为判点数</text>
           </g>
 
-          <path d="M480 348 L480 378" class="svg-arrow" marker-end="url(#arrow2)"/>
+          <path d="M480 296 L480 320" class="svg-arrow" marker-end="url(#arrow2)"/>
 
           <g class="arch-node" data-tip="章 6-9 运行与交付证据。其中章 7 安全底线为必查、不可跳过，红线触顶即一票否决。">
-            <rect x="40" y="388" width="880" height="76" rx="14" class="n-p3"/>
-            <text x="66" y="420" class="svg-h">P3 · 章 6-9　运行与交付证据</text>
-            <text x="66" y="446" class="svg-p">6 运行可观测（29）　7 安全与权限底线（38 · 必查）　8 生产就绪与上线（39）　9 交付物与证据链（34）</text>
+            <rect x="40" y="324" width="880" height="66" rx="14" class="n-p3"/>
+            <text x="66" y="350" class="svg-h">P3 · 章 6-9　运行与交付证据</text>
+            <text x="66" y="374" class="svg-p">6 运行可观测（29）　7 安全与权限底线（38 · 必查）　8 生产就绪与上线（39）　9 交付物与证据链（34）</text>
           </g>
 
-          <path d="M480 464 L480 486" class="svg-arrow" marker-end="url(#arrow2)"/>
+          <path d="M480 390 L480 414" class="svg-arrow" marker-end="url(#arrow2)"/>
 
-          <g class="arch-node" data-tip="章 10 收口：否决项先挡门 → 加权定档 → 未证实项清单 → 改进回归闭环，输出验收结论单。">
-            <rect x="200" y="492" width="560" height="0" rx="0" fill="none"/>
+          <g class="arch-node" data-tip="章 10 收口：否决项先挡门 → 加权定档 → 未证实项清单 → 改进回归闭环，输出验收结论单。缺层自动封顶。">
+            <rect x="220" y="418" width="520" height="52" rx="14" class="n-final"/>
+            <text x="480" y="441" class="svg-h c">章 10　收口：否决先行 → 加权定档 → 改进闭环</text>
+            <text x="480" y="461" class="svg-p c dim">16 判点 · 合成验收结论单 · 缺层自动封顶</text>
           </g>
-          <text x="480" y="512" class="svg-foot">↓ 收口 · 章 10（16 判点）：否决先行 → 加权定档 → 未证实项清单 → 改进闭环　|　缺层自动封顶</text>
+
+          <text x="480" y="498" class="svg-foot">三档跑法覆盖不同深度 · 章 7 红线触顶即一票否决，任何档位不豁免</text>
         </svg>
         <div class="svg-tooltip" id="svgTip2"></div>
       </div>
@@ -855,22 +859,22 @@ https://github.com/LPK3215/agent-acceptance，以全局地图为纲，
 
   <div class="grid grid-4">
     <div class="card card-sm">
-      <div class="stack-ico" style="--ic:#38bdf8">Md</div>
+      <div class="stack-ico" style="--ic:var(--accent-2)">Md</div>
       <h4>Markdown</h4>
       <p>判据正文载体：references/ 12 篇、1919 行；docs/ 维护文档另 4 篇、569 行，全部中文定稿。</p>
     </div>
     <div class="card card-sm">
-      <div class="stack-ico" style="--ic:#f59e0b">Py</div>
+      <div class="stack-ico" style="--ic:var(--accent)">Py</div>
       <h4>Python 3（仅标准库）</h4>
       <p>维护工具：argparse / json / zipfile / pathlib / subprocess。无第三方依赖。</p>
     </div>
     <div class="card card-sm">
-      <div class="stack-ico" style="--ic:#34d399">AS</div>
+      <div class="stack-ico" style="--ic:var(--accent-3)">AS</div>
       <h4>Agent Skills 规范</h4>
       <p>三层渐进式披露：元数据常驻 → 入口路由 → 判据正文按需加载。</p>
     </div>
     <div class="card card-sm">
-      <div class="stack-ico" style="--ic:#a78bfa">SVG</div>
+      <div class="stack-ico" style="--ic:var(--violet)">SVG</div>
       <h4>SVG（脚本生成）</h4>
       <p>badges.svg / overview.svg 由 docs/scripts/ 下两个脚本生成，零外部依赖。</p>
     </div>
@@ -982,21 +986,21 @@ https://github.com/LPK3215/agent-acceptance，以全局地图为纲，
 
   <div class="grid grid-3">
     <div class="card">
-      <div class="card-icon" style="--ic:#34d399">
+      <div class="card-icon" style="--ic:var(--accent-3)">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4h-6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6"></path><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
       </div>
       <h3>修错字 / 措辞 / 引用</h3>
       <p>直接改对应章正文，不动章号与判点号。改 references/ 链接或增删文件时注意维护联动：verify.py 登记表、docs/ 维护文档、各章头部回链三方同步。</p>
     </div>
     <div class="card">
-      <div class="card-icon" style="--ic:#f59e0b">
+      <div class="card-icon" style="--ic:var(--accent)">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v4l3 2"></path></svg>
       </div>
       <h3>修改判据（不新增判点）</h3>
       <p>判点号是稳定主键，正文互引用它，改判据不得改动编号。若改达标线、证据要求等语义，须同步检查引用处、输出物描述与 docs/03 联动面。</p>
     </div>
     <div class="card">
-      <div class="card-icon" style="--ic:#a78bfa">
+      <div class="card-icon" style="--ic:var(--violet)">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>
       </div>
       <h3>新增检查面（扩容三关）</h3>
