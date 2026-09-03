@@ -1,0 +1,18 @@
+{
+  "name": "agent-acceptance",
+  "displayName": "Agent 工程验收与定档",
+  "description": "对 AI Agent 或多 Agent 项目做全套工程验收并给档位结论（Demo / 原型 / 有限 Beta / 生产候选 / block）。当需要判断项目是否真需要 Agent、本体部件是否真实接线、评测考卷与判分是否可信、安全与权限底线是否达标、能否上线与交付、最终应给什么档时，用它产出第三方可复现的验收报告。",
+  "version": "1.0.0",
+  "author": "LPK",
+  "updated": "2026-09-03",
+  "keywords": [
+    "agent",
+    "multi-agent",
+    "acceptance",
+    "engineering-review",
+    "evaluation",
+    "deliverable",
+    "agent-skills",
+    "skill"
+  ]
+}

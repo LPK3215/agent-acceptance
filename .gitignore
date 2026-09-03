@@ -1,0 +1,9 @@
+# Python artifacts
+__pycache__/
+*.pyc
+
+# Release outputs
+dist/
+
+# Local IDE / skill registry (installed copies)
+agent-acceptance-*.zip
