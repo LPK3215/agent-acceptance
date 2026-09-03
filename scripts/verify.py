@@ -11,8 +11,8 @@
   - 00-global-map.md 为全貌导航文件，豁免「正文小节导航」要求。
 
 用法（在仓库根目录执行，零第三方依赖，仅 Python 3 标准库）：
-  python docs/verify.py          # 全量自查
-  python docs/verify.py --quiet  # 只输出问题与摘要
+  python scripts/verify.py          # 全量自查
+  python scripts/verify.py --quiet  # 只输出问题与摘要
 退出码：0 = 可打包；1 = 存在 FAIL。
 """
 
@@ -311,11 +311,15 @@ def check_map_section(path, text, map_text):
 
     00-global-map.md 承诺自己是"章树全貌"；正文新增/删除小节若不同步地图，
     全貌导航会失真——此处对 NN- 编号章做双向差集检查。
+
+    注意：文件名前缀 = 2 位（`01-` / `02-` ... / `10-`），而地图与正文小节 =
+    1-2 位自然数字（`## 1.1` / `## 10.1`），需将章号归一为 `int` 后取字串，
+    不然 01-09 章的 `startswith` 会全部落空、本检查静默失效。
     """
     m = re.match(r"^(\d{2})-", path.name)
     if not m:
         return
-    chap = m.group(1)
+    chap = str(int(m.group(1)))
     body_secs = set(re.findall(r"^##\s*(\d+\.\d+)\b", text, re.M))
     body_secs = {s for s in body_secs if s.startswith(chap + ".")}
     map_secs = set(re.findall(r"^#{2,4}\s*(\d+\.\d+)\b", map_text, re.M))

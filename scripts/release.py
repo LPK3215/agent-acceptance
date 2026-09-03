@@ -4,13 +4,13 @@
 
 参考 CodeBuddy 官方 skill-creator 的发布范式（quick_validate + package_skill），
 但按本仓库 docs/00 写作规范做差异化：
-  - 校验复用 docs/verify.py（比官方 quick_validate 更严：黑名单字符 / wikilink / 链接白名单 / ToC / 元数据三方一致）；
+  - 校验复用 scripts/verify.py（比官方 quick_validate 更严：黑名单字符 / wikilink / 链接白名单 / ToC / 元数据三方一致）；
   - 打包单元 = SKILL.md + skill.json + references/（docs/ scripts/ .codebuddy 等维护物不进发布物）；
   - zip 顶层带技能目录名（agent-acceptance/），解压即得一个可直接加载的技能目录；
   - 提供 install：一键装到本机 CodeBuddy 用户技能目录（~/.codebuddy/skills/<name>/）。
 
 用法（任意目录执行均可，脚本按自身路径定位仓库根）：
-  python scripts/release.py check      一键检验（等价 python docs/verify.py）
+  python scripts/release.py check      一键检验（等价 python scripts/verify.py）
   python scripts/release.py package    校验通过后打 zip 到 dist/agent-acceptance-<version>.zip
   python scripts/release.py install    校验通过后装到本机 ~/.codebuddy/skills/agent-acceptance/
   python scripts/release.py all        按序执行 check -> package -> install（缺省子命令）
@@ -30,7 +30,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SKILL_NAME = ROOT.name                       # agent-acceptance（zip 顶层目录名 = 技能目录名）
-VERIFY = ROOT / "docs" / "verify.py"
+VERIFY = ROOT / "scripts" / "verify.py"
 SKILL_JSON = ROOT / "skill.json"
 DEFAULT_DIST = ROOT / "dist"
 DEFAULT_INSTALL = Path.home() / ".codebuddy" / "skills" / SKILL_NAME
@@ -50,11 +50,11 @@ _verified = False
 
 
 def run_verify():
-    """先过一遍 docs/verify.py；FAIL 非零即中止发布。同进程内只跑一次（缓存结果）。"""
+    """先过一遍 scripts/verify.py；FAIL 非零即中止发布。同进程内只跑一次（缓存结果）。"""
     global _verified
     if _verified:
         return True
-    banner("第 1 步 / 校验（docs/verify.py）")
+    banner("第 1 步 / 校验（scripts/verify.py）")
     proc = subprocess.run([sys.executable, str(VERIFY)], cwd=str(ROOT))
     if proc.returncode != 0:
         print("\n[FAIL] 校验未通过，请先修复 FAIL 项再发布。")
@@ -93,7 +93,7 @@ def cmd_package(dest):
         print("[FAIL] 写 zip 失败：%s" % e)
         return 1
     print("\n[OK] 发布包已生成：%s" % zip_path)
-    print("     解压后得到 %s/ 目录，即为可加载的技能目录（验证：python docs/verify.py 对解压目录再跑一轮）。" % SKILL_NAME)
+    print("     解压后得到 %s/ 目录，即为可加载的技能目录（本仓库已提供一键安装：`python scripts/release.py install`）。" % SKILL_NAME)
     return 0
 
 

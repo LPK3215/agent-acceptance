@@ -1,5 +1,5 @@
 @echo off
-rem agent-acceptance: one-click check (wrapper of docs/verify.py)
+rem agent-acceptance: one-click check (wrapper of scripts/verify.py)
 cd /d "%~dp0.."
-python docs\verify.py %*
+python scripts\verify.py %*
 pause
