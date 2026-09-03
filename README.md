@@ -1,8 +1,12 @@
 # agent-acceptance：AI Agent 项目的工程验收与定档
 
+![版本](docs/assets/badges.svg)
+
 `agent-acceptance` 是一份面向 AI Agent 与多 Agent 项目的工程验收标准，以 Agent Skills 技能包形式发布。它回答三个问题：项目**是否拿得出手、能否放得出去、应给予什么档位**。
 
 本标准的评估对象是工程与证据，而非模型能力。全部判据自含于技能包内，任何第三方均可依据本仓库独立复核并得到相同结论。它不评价模型能力强弱，不代替第三方资质检测或带章检测报告。
+
+![agent-acceptance 体系总览](docs/assets/overview.svg)
 
 ## 技能信息
 
@@ -119,5 +123,10 @@
 ## 参与维护与贡献
 
 - 修改判据遵循写作与引用规范，章号与判点号是稳定主键，修改判据不得改动编号；新增检查面需先通过扩容三关，即通用、公用与可判
+- 贡献指引、流程与行为约定见 [CONTRIBUTING.md](CONTRIBUTING.md)
 - 机械自检：`python scripts/verify.py`
 - 一键发布：`python scripts/release.py all`
+
+## 许可证
+
+本仓库以 [MIT License](LICENSE) 开源，作者与主要贡献者见 [AUTHORS](AUTHORS)，版本变更记录见 [CHANGELOG.md](CHANGELOG.md)。

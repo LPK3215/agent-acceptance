@@ -7,3 +7,16 @@ dist/
 
 # Local IDE / skill registry (installed copies)
 agent-acceptance-*.zip
+
+# Virtual environments
+.venv/
+venv/
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

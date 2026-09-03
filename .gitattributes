@@ -1,0 +1,20 @@
+# 行尾统一：仓库内一律 LF，检出按平台转换
+* text=auto
+
+# 文本类显式标注
+*.md   text eol=lf
+*.py   text eol=lf
+*.svg  text eol=lf
+*.json text eol=lf
+*.cmd  text eol=crlf
+*.yml  text eol=lf
+*.yaml  text eol=lf
+*.cfg  text eol=lf
+*.toml text eol=lf
+
+# 二进制
+*.zip binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
