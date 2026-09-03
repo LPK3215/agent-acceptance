@@ -8,7 +8,7 @@
 适用范围（与规范一致）：
   - 运行时正文 = SKILL.md + README.md + references/*.md；
   - docs/ 为作者维护区：自身含规则反例示范，不参与字符 / 链接 / wikilink 扫描；
-  - 00-global-map.md 为全貌导航文件，豁免「正文小节导航」要求。
+  - 00-全局地图.md 为全貌导航文件，豁免「正文小节导航」要求。
 
 用法（在仓库根目录执行，零第三方依赖，仅 Python 3 标准库）：
   python scripts/verify.py          # 全量自查
@@ -29,7 +29,7 @@ SKILL_JSON = ROOT / "skill.json"
 
 # references/ 已知文件登记（打包单元 = SKILL.md + skill.json + references/，不允许多出不缺漏）
 KNOWN_REF_FILES = {
-    "00-global-map.md",
+    "00-全局地图.md",
     "01-范围、形态与档位.md",
     "02-系统组成与真实接线.md",
     "03-考卷与评测集.md",
@@ -44,6 +44,22 @@ KNOWN_REF_FILES = {
 }
 SKILL_MAX_LINES = 500   # 规范：SKILL.md 正文保持 500 行内
 TOC_MIN_LINES = 100     # 规范：超 100 行章正文需「正文小节导航」
+
+# SKILL.md 执行硬协议锚定（防维护期删弱/挪走）。硬协议是运行期"触发即必达"的
+# 最硬保证，正文一旦被删或降级成 references 按需层，打包校验即 FAIL——
+# 避免收口/落盘约束悄然丢失。短语按 SKILL.md 正文现文登记，改正文需同步本表。
+HARD_PROTOCOL_ANCHORS = (
+    ("执行硬协议（必执行、不可跳过", "执行硬协议标题"),
+    ("入口必经", "入口必经约束"),
+    ("收口必经", "收口必经约束"),
+    ("产出必落盘", "产出必落盘约束"),
+    ("分批跑接续", "分批跑接续约束"),
+    ("输出目录声明", "输出目录声明（与 01 定档记录第 8 项联动）"),
+    ("acceptance/<被检对象名>/<YYYY-MM-DD>/", "默认落盘目录路径"),
+    ("开跑先复述", "开跑复述钩子（第 0 步自证已读）"),
+    ("references/01-范围、形态与档位.md", "入口必经章链接"),
+    ("references/10-验收结论与档位.md", "收口必经章链接"),
+)
 
 # R4 符号纪律：允许的中文标点 / 符号（码点白名单）；其余非 ASCII 一律报 FAIL
 ALLOW_PUNCT = {
@@ -218,6 +234,20 @@ def check_toc(path):
             note("FAIL", "%s：正文小节 %s 未进「正文小节导航」" % (path.name, num))
 
 
+def check_hard_protocol(skill_text):
+    """执行硬协议锚定：SKILL.md 必须长期保有收口/落盘关键约束与必经章链接。
+
+    运行期"是否真被读到"由入口指令强度决定、机器不可判；此处机械锁定
+    "约束正文仍在常驻入口层"，防止后续编辑把硬协议删弱或挪出 SKILL.md——
+    挪走即降级为 references 按需层，失去"触发即必达"的保证。
+    """
+    missing = [desc for phrase, desc in HARD_PROTOCOL_ANCHORS
+               if phrase not in skill_text]
+    if missing:
+        note("FAIL", "SKILL.md 执行硬协议锚定缺失（收口/落盘约束被删弱或移出常驻层）：%s"
+             % "、".join(missing))
+
+
 def check_chapter_number(path):
     """文件名前缀（01-10）与该章首行标题编号一致。"""
     m = re.match(r"^(\d{2})-", path.name)
@@ -269,7 +299,7 @@ def check_title_topic(path, map_text):
                 note("FAIL", "%s：文件名主题词 [%s] 与地图小节主题词 [%s] 不一致（%s 章）"
                      % (path.name, file_topic, strip_topic(mm.group(1)), chap))
             return
-    note("FAIL", "%s：00-global-map.md 中找不到 `## %s. ...` 对应小节" % (path.name, chap))
+    note("FAIL", "%s：00-全局地图.md 中找不到 `## %s. ...` 对应小节" % (path.name, chap))
 
 
 def collect_checkpoint_ids():
@@ -280,7 +310,7 @@ def collect_checkpoint_ids():
     """
     ids = set()
     for path in sorted(REF_DIR.glob("*.md")):
-        if path.name == "00-global-map.md":
+        if path.name == "00-全局地图.md":
             continue
         text = path.read_text(encoding="utf-8")
         ids |= {m.group(1) for m in re.finditer(r"^\|\s*(\d+\.\d+\.\d+)\s*\|", text, re.M)}
@@ -309,7 +339,7 @@ def check_ref_ids(path, text, universe):
 def check_map_section(path, text, map_text):
     """地图 ↔ 正文小节双向对齐：NN- 章正文的 `## N.M` 小节必须在地图出现且一一对应。
 
-    00-global-map.md 承诺自己是"章树全貌"；正文新增/删除小节若不同步地图，
+    00-全局地图.md 承诺自己是"章树全貌"；正文新增/删除小节若不同步地图，
     全貌导航会失真——此处对 NN- 编号章做双向差集检查。
 
     注意：文件名前缀 = 2 位（`01-` / `02-` ... / `10-`），而地图与正文小节 =
@@ -325,7 +355,7 @@ def check_map_section(path, text, map_text):
     map_secs = set(re.findall(r"^#{2,4}\s*(\d+\.\d+)\b", map_text, re.M))
     map_secs = {s for s in map_secs if s.startswith(chap + ".")}
     for s in sorted(body_secs - map_secs, key=lambda x: [int(v) for v in x.split(".")]):
-        note("FAIL", "%s：正文小节 %s 未出现在 00-global-map.md（地图漏登记）" % (path.name, s))
+        note("FAIL", "%s：正文小节 %s 未出现在 00-全局地图.md（地图漏登记）" % (path.name, s))
     for s in sorted(map_secs - body_secs, key=lambda x: [int(v) for v in x.split(".")]):
         note("FAIL", "%s：地图小节 %s 在本章正文中不存在（地图冗余或正文缺节）" % (path.name, s))
 
@@ -378,6 +408,7 @@ def main():
     # B. 结构完整性
     if len(skill_text.splitlines()) > SKILL_MAX_LINES:
         note("FAIL", "SKILL.md %d 行，超过 %d 行限制" % (len(skill_text.splitlines()), SKILL_MAX_LINES))
+    check_hard_protocol(skill_text)   # 执行硬协议锚定：删弱/移出常驻层即 FAIL
     actual = {p.name for p in REF_DIR.glob("*.md")}
     if actual != KNOWN_REF_FILES:
         for name in sorted(actual - KNOWN_REF_FILES):
@@ -386,7 +417,7 @@ def main():
             note("FAIL", "references/ 缺登记文件：%s" % name)
 
     # C. 逐运行时正文文件扫描
-    map_text = (REF_DIR / "00-global-map.md").read_text(encoding="utf-8")
+    map_text = (REF_DIR / "00-全局地图.md").read_text(encoding="utf-8")
     universe = collect_checkpoint_ids()
     for path in runtime_targets():
         if not path.exists():
@@ -396,11 +427,11 @@ def main():
         check_wikilink(path, text)
         check_banned_chars(path, text)
         check_links(path, text)
-        if path != SKILL and path != README and path.name != "00-global-map.md":
+        if path != SKILL and path != README and path.name != "00-全局地图.md":
             check_toc(path)
             check_chapter_number(path)
             check_title_topic(path, map_text)
-        if path.name != "00-global-map.md":
+        if path.name != "00-全局地图.md":
             check_ref_ids(path, text, universe)
             check_map_section(path, text, map_text)
 
