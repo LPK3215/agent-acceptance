@@ -34,7 +34,7 @@ def badges():
         # (label, value, value_color, 来源)
         ("version", meta["version"], "#0369a1", "skill.json version（与 SKILL.md frontmatter 双写同步）"),
         ("license", "MIT", "#047857", "LICENSE"),
-        ("references", str(ref_count), "#6d28d9", "references/*.md：00 全局地图 + 01-10 十章 + 附录A"),
+        ("references", str(ref_count), "#6d28d9", "references/*.md：00 全局地图 + 01-10 十章 + 附录A + 附录B"),
         ("updated", meta["updated"], "#64748b", "skill.json updated"),
         ("spec", "Agent Skills", "#b45309", "SKILL.md frontmatter spec（agentskills.io）"),
     ]

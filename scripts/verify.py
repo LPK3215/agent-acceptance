@@ -48,6 +48,7 @@ KNOWN_REF_FILES = {
     "09-交付物与证据链.md",
     "10-验收结论与档位.md",
     "附录A-元规则.md",
+    "附录B-脚手架型通用接入模板.md",
 }
 SKILL_MAX_LINES = 500   # 规范：SKILL.md 正文保持 500 行内
 TOC_MIN_LINES = 100     # 规范：超 100 行章正文需「正文小节导航」
