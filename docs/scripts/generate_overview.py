@@ -6,7 +6,8 @@
       供 README 顶部插图使用；图内文字与 references/、README 正文口径一致。
 依赖：Python 标准库（无第三方依赖）。
 运行：python docs/scripts/generate_overview.py
-输出：docs/assets/overview.svg（由 README.md 以相对路径引用）
+输出：docs/assets/overview.svg（由 README.md 以相对路径引用），并同步
+      project_overview/assets/overview.svg。
 
 注意：本图为纯静态信息图，不含任何外部图片 / 字体资源；修改口径后重跑本脚本即可。
 
@@ -17,7 +18,9 @@
     本图固定为浅底（GitHub 默认浅色模式），故一律取浅色主题那一档色值。
 """
 
-import os
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
 
 # ---- 画布 ----
 W, H = 960, 600
@@ -46,16 +49,17 @@ C_RULE = "#e2e8f0"       # 分隔线
 
 # 三泳道：输入(蓝) → 执行(琥珀·品牌) → 输出(绿)
 LANES = [
-    ("输入", "被检项目资料", ["仓库 / 文档 / 演示材料", "角色开场白（见 README）"], C_BLUE),
+    ("输入", "被检项目资料", ["仓库 / 文档 / 演示材料", "级别开场白（见 README）"], C_BLUE),
     ("执行", "技能包结构", ["SKILL.md 唯一入口：章级路由", "references/ 判据正文按需加载"], C_AMBER),
     ("输出", "验收报告底稿", ["档位结论 · 各章判定表", "未证实项清单 · 改进闭环"], C_GREEN),
 ]
 
-# 三种跑法
+# 四个检查级别
 RUNS = [
-    ("快速初判", "1 → 2 → 7 → 10", "一次会话出体检初判"),
-    ("完整验收", "1 → 2 → 3-5 → 6-9 → 10", "分批多轮，收口合成结论"),
-    ("甲方收货", "1 + 9 + 10", "以交付物与证据为主线"),
+    ("轻度", "1 -> 2 -> 10", "单次会话出体检初判"),
+    ("中度", "1 -> 2 -> 7 -> 10", "加安全底线，出改进清单"),
+    ("重度", "1 -> 2 -> 3-5 -> 6-9 -> 10", "分批多轮，完整验收"),
+    ("自动", "AI 全扫后自选", "AI 选级别，可交叉"),
 ]
 
 # 档位体系（自高危到可放行；色彩取主题语义色，形成红→橙→琥珀→蓝→绿的连续谱）
@@ -94,7 +98,7 @@ def main():
     out = []
     out.append(f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" '
                f'viewBox="0 0 {W} {H}" role="img" '
-               f'aria-label="agent-acceptance 体系总览：输入、执行、输出三泳道，三种跑法与五档结论">')
+               f'aria-label="agent-acceptance 体系总览：输入、执行、输出三泳道，四个检查级别与五档结论">')
     out.append('  <!-- 由 docs/scripts/generate_overview.py 生成，勿手改；口径变更后重跑该脚本 -->')
 
     # ---- defs：页面渐变、卡片投影、品牌渐变、箭头 marker ----
@@ -157,13 +161,13 @@ def main():
                        f'{lane_y + lane_h / 2}" stroke="{C_FAINT}" stroke-width="1.6" '
                        f'fill="none" marker-end="url(#arw)"/>')
 
-    # ---- 跑法区 ----
+    # ---- 检查级别区 ----
     run_y = 350
-    out.append(_text(30, run_y - 12, "三种跑法", 11, C_DIM, "bold", mono=True, spacing="0.1em"))
+    out.append(_text(30, run_y - 12, "检查级别", 11, C_DIM, "bold", mono=True, spacing="0.1em"))
     out.append(_text(114, run_y - 12, "第 1 章定档问卷按问题分流，不必十章全跑", 11, C_FAINT))
-    run_w, run_h = 292, 78
+    run_w, run_h = 218, 78
     for i, (name, route, note) in enumerate(RUNS):
-        x = 30 + i * (run_w + 12)
+        x = 30 + i * (run_w + 9)
         out.extend(_card(x, run_y, run_w, run_h, rx=11))
         out.append(_text(x + 18, run_y + 28, name, 13.2, C_INK, "bold"))
         out.append(_text(x + 18, run_y + 51, route, 12.4, C_BLUE, mono=True))
@@ -191,11 +195,14 @@ def main():
     out.append('</svg>')
 
     svg_text = "\n".join(out)
-    out_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "assets", "overview.svg"))
-    os.makedirs(os.path.dirname(out_path), exist_ok=True)
-    with open(out_path, "w", encoding="utf-8") as f:
-        f.write(svg_text + "\n")
-    print("已生成：%s" % out_path)
+    targets = (
+        ROOT / "docs" / "assets" / "overview.svg",
+        ROOT / "project_overview" / "assets" / "overview.svg",
+    )
+    for out_path in targets:
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(svg_text + "\n", encoding="utf-8")
+        print("已生成：%s" % out_path)
 
 
 if __name__ == "__main__":

@@ -5,6 +5,8 @@ __pycache__/
 # Release outputs
 dist/
 
+测试项目临时用/
+
 # Local IDE / skill registry (installed copies)
 agent-acceptance-*.zip
 

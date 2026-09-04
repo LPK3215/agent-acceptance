@@ -3,15 +3,16 @@
 """生成 README 顶部徽章条（docs/assets/badges.svg）。
 
 用途：为 README 提供版本 / 许可证 / 文档计数 / 更新时间等元数据徽章。
-依赖：Python 标准库（无第三方依赖），须在仓库根目录的 docs/scripts/ 下运行。
+依赖：Python 标准库（无第三方依赖），可从任意工作目录运行。
 运行：python docs/scripts/generate_badges.py
-输出：docs/assets/badges.svg（由 README.md 以相对路径引用）
+输出：docs/assets/badges.svg（由 README.md 以相对路径引用），并同步
+      project_overview/assets/badges.svg。
 
 注意：
 - 故意不用 shields.io 外链徽章：verify.py 的 R3 规则会对 http(s) 外链产生 WARN，
   且项目质量声明是「仅余官方一手来源外链提示项」，本地 SVG 徽章零外部依赖。
-- 修改徽章数值时，同步更新下方常量来源文件：version / updated 取 skill.json，
-  引用计数 = references/*.md 文件数（含 00 全局地图与附录A）。
+- 徽章数值在运行时读取：version / updated 取 skill.json，引用计数取
+  references/*.md 文件数（含 00 全局地图与附录A），不得手工维护常量。
 
 配色纪律（2026-09-04 修订）：
     与 docs/scripts/generate_overview.py、project_overview/style.css 共用
@@ -19,17 +20,24 @@
     style.css 浅色主题色值；改动任一侧时另一侧须同步。
 """
 
-import os
+import json
+from pathlib import Path
 
-# ---- 徽章数据（改动时须与来源文件保持一致）----
-BADGES = [
-    # (label, value, value_color, 来源)
-    ("version", "1.0.0", "#0369a1", "skill.json version（与 SKILL.md frontmatter 双写同步）"),
-    ("license", "MIT", "#047857", "LICENSE"),
-    ("references", "12", "#6d28d9", "references/*.md：00 全局地图 + 01-10 十章 + 附录A"),
-    ("updated", "2026-09-03", "#64748b", "skill.json updated"),
-    ("spec", "Agent Skills", "#b45309", "SKILL.md frontmatter spec（agentskills.io）"),
-]
+ROOT = Path(__file__).resolve().parents[2]
+
+
+def badges():
+    """从发布源读取徽章数据，避免版本、日期与正文数量发生漂移。"""
+    meta = json.loads((ROOT / "skill.json").read_text(encoding="utf-8"))
+    ref_count = len(list((ROOT / "references").glob("*.md")))
+    return [
+        # (label, value, value_color, 来源)
+        ("version", meta["version"], "#0369a1", "skill.json version（与 SKILL.md frontmatter 双写同步）"),
+        ("license", "MIT", "#047857", "LICENSE"),
+        ("references", str(ref_count), "#6d28d9", "references/*.md：00 全局地图 + 01-10 十章 + 附录A"),
+        ("updated", meta["updated"], "#64748b", "skill.json updated"),
+        ("spec", "Agent Skills", "#b45309", "SKILL.md frontmatter spec（agentskills.io）"),
+    ]
 
 # ---- 设计 token：镜像 style.css 的 html[data-theme="light"] ----
 LABEL_BG = "#334155"     # 徽章标签底：深空蓝灰
@@ -98,7 +106,8 @@ def badge_svg(label, value, color, x):
 def main():
     total_w = 0.0
     body = []
-    for label, value, color, _src in BADGES:
+    source_badges = badges()
+    for label, value, color, _src in source_badges:
         parts, w = badge_svg(label, value, color, total_w)
         body.extend(parts)
         total_w += w + GAP
@@ -113,13 +122,16 @@ def main():
         '</svg>',
     ]
 
-    out = os.path.join(os.path.dirname(__file__), "..", "assets", "badges.svg")
-    out = os.path.abspath(out)
-    os.makedirs(os.path.dirname(out), exist_ok=True)
-    with open(out, "w", encoding="utf-8") as f:
-        f.write("\n".join(svg) + "\n")
-    print("已生成：%s" % out)
-    print("徽章数据：%s" % ", ".join("%s=%s" % (b[0], b[1]) for b in BADGES))
+    content = "\n".join(svg) + "\n"
+    targets = (
+        ROOT / "docs" / "assets" / "badges.svg",
+        ROOT / "project_overview" / "assets" / "badges.svg",
+    )
+    for out in targets:
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(content, encoding="utf-8")
+        print("已生成：%s" % out)
+    print("徽章数据：%s" % ", ".join("%s=%s" % (b[0], b[1]) for b in source_badges))
 
 
 if __name__ == "__main__":

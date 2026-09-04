@@ -8,6 +8,8 @@
 适用范围（与规范一致）：
   - 运行时正文 = SKILL.md + README.md + references/*.md；
   - docs/ 为作者维护区：自身含规则反例示范，不参与字符 / 链接 / wikilink 扫描；
+  - project_overview/ 为仓库展示页：只检查与技能正文同步的元数据、判点统计、
+    生成资产和基础安全 / 无障碍钩子，不把它混入发布包正文规则；
   - 00-全局地图.md 为全貌导航文件，豁免「正文小节导航」要求。
 
 用法（在仓库根目录执行，零第三方依赖，仅 Python 3 标准库）：
@@ -26,6 +28,11 @@ SKILL = ROOT / "SKILL.md"
 README = ROOT / "README.md"
 REF_DIR = ROOT / "references"
 SKILL_JSON = ROOT / "skill.json"
+OVERVIEW_DIR = ROOT / "project_overview"
+OVERVIEW_HTML = OVERVIEW_DIR / "index.html"
+OVERVIEW_SCRIPT = OVERVIEW_DIR / "script.js"
+OVERVIEW_CHARTS = OVERVIEW_DIR / "charts.js"
+OVERVIEW_STYLE = OVERVIEW_DIR / "style.css"
 
 # references/ 已知文件登记（打包单元 = SKILL.md + skill.json + references/，不允许多出不缺漏）
 KNOWN_REF_FILES = {
@@ -360,6 +367,71 @@ def check_map_section(path, text, map_text):
         note("FAIL", "%s：地图小节 %s 在本章正文中不存在（地图冗余或正文缺节）" % (path.name, s))
 
 
+def check_project_overview(meta, universe):
+    """防展示页与技能正文漂移，不将展示页纳入发布包内容校验。"""
+    paths = (OVERVIEW_HTML, OVERVIEW_SCRIPT, OVERVIEW_CHARTS, OVERVIEW_STYLE)
+    if any(not path.exists() for path in paths):
+        for path in paths:
+            if not path.exists():
+                note("FAIL", "project_overview/ 缺失展示文件：%s" % path.name)
+        return
+
+    html = OVERVIEW_HTML.read_text(encoding="utf-8")
+    script = OVERVIEW_SCRIPT.read_text(encoding="utf-8")
+    charts = OVERVIEW_CHARTS.read_text(encoding="utf-8")
+    style = OVERVIEW_STYLE.read_text(encoding="utf-8")
+    counts = [sum(cid.startswith("%d." % chap) for cid in universe) for chap in range(1, 11)]
+    total = sum(counts)
+    expected_chart = "var data = [%s];" % ", ".join(str(count) for count in counts)
+
+    if expected_chart not in charts:
+        note("FAIL", "project_overview/charts.js 判点分布与 references/ 实际判点数不一致（应为 %s）"
+             % counts)
+    if html.count('data-count="%d"' % total) < 2 or ("%d 个判点" % total) not in html:
+        note("FAIL", "project_overview/index.html 的判点总数未同步为 %d" % total)
+
+    chapter_pts = {int(no): int(pts) for no, pts in re.findall(
+        r"no:\s*'(\d{2})'.*?pts:\s*(\d+)", script, re.S) if no != "00"}
+    expected_pts = {chap: count for chap, count in enumerate(counts, 1)}
+    if chapter_pts != expected_pts:
+        note("FAIL", "project_overview/script.js 的章节判点数与 references/ 不一致（应为 %s）"
+             % expected_pts)
+
+    version = meta.get("version", "")
+    updated = meta.get("updated", "")
+    if version and ("v%s" % version) not in html:
+        note("FAIL", "project_overview/index.html 未同步 skill.json.version=%s" % version)
+    if updated and updated not in html:
+        note("FAIL", "project_overview/index.html 未同步 skill.json.updated=%s" % updated)
+
+    if "fonts.googleapis.com" in html or "fonts.gstatic.com" in html:
+        note("FAIL", "project_overview/index.html 仍依赖远程字体，应使用本机字体栈")
+    chart_tag = re.search(r'<script[^>]+src="https://cdn\.jsdelivr\.net/npm/chart\.js@4\.4\.1/dist/chart\.umd\.min\.js"[^>]*>', html)
+    if chart_tag is None or "integrity=\"sha384-" not in chart_tag.group(0) or "crossorigin=\"anonymous\"" not in chart_tag.group(0):
+        note("FAIL", "project_overview 的 Chart.js CDN 脚本须固定版本并设置 SRI 与 anonymous CORS")
+    if "prefers-reduced-motion" not in style:
+        note("FAIL", "project_overview/style.css 缺少 prefers-reduced-motion 动效降级")
+    if "setAttribute('role', 'tablist')" not in script or "addEventListener('keydown'" not in script:
+        note("FAIL", "project_overview/script.js 缺少 Tab 的 ARIA 语义或键盘操作")
+
+    pairs = (
+        (ROOT / "docs" / "assets" / "badges.svg", OVERVIEW_DIR / "assets" / "badges.svg"),
+        (ROOT / "docs" / "assets" / "overview.svg", OVERVIEW_DIR / "assets" / "overview.svg"),
+    )
+    for source, mirror in pairs:
+        if not source.exists() or not mirror.exists():
+            note("FAIL", "生成资产缺失：%s 或 %s" % (source, mirror))
+        elif source.read_bytes() != mirror.read_bytes():
+            note("FAIL", "生成资产副本不一致：%s 与 %s（请重跑对应 docs/scripts/generate_*.py）"
+                 % (source.name, mirror.name))
+
+    badge = ROOT / "docs" / "assets" / "badges.svg"
+    if badge.exists():
+        for value in (version, updated, str(len(KNOWN_REF_FILES))):
+            if value and (">%s</text>" % value) not in badge.read_text(encoding="utf-8"):
+                note("FAIL", "docs/assets/badges.svg 未同步源数据 %s（请重跑 generate_badges.py）" % value)
+
+
 # ---------- 主流程 ----------
 
 def main():
@@ -419,6 +491,7 @@ def main():
     # C. 逐运行时正文文件扫描
     map_text = (REF_DIR / "00-全局地图.md").read_text(encoding="utf-8")
     universe = collect_checkpoint_ids()
+    check_project_overview(meta, universe)
     for path in runtime_targets():
         if not path.exists():
             note("FAIL", "缺失文件：%s" % path)

@@ -7,8 +7,9 @@
 - `SKILL.md`：唯一入口（元数据 + 章级路由索引），不承载判据正文
 - `references/`：判据正文（章 01-10 + 附录 A）与全局地图（00），技能包核心资产
 - `docs/`：作者维护区（写作规范、结构、依赖、速查），自身含规则反例示范，不参与机械扫描
+- `project_overview/`：仓库全景展示页，不进发布包；其判点统计、元数据、生成资产与基础访问性由 verify 交叉检查
 - `scripts/verify.py`：机械自检（发布门禁）
-- `scripts/release.py`：一键发布（校验 → 打包 → 安装本机）
+- `scripts/release.py`：一键发布（校验 -> 打包 -> 安装本机，覆盖安装前保留备份）
 
 ## 改动类型与对应流程
 
@@ -42,6 +43,12 @@
 - 三处登记必须同步，否则 verify 会 FAIL：`SKILL.md` 路由表、`00-全局地图.md`、`verify.py` 的 `KNOWN_REF_FILES`。
 - 章正文超过 100 行需具备「正文小节导航」。
 
+### 5. 修改全景展示页 / 可视化资产
+
+- `project_overview/` 的判点统计、版本与日期必须和 `references/`、`skill.json` 同步；`python scripts/verify.py` 会检查关键展示值。
+- SVG 是受管生成物：修改 `skill.json`、`references/` 数量或图示口径后，运行 `python docs/scripts/generate_badges.py` 与 `python docs/scripts/generate_overview.py`。脚本会同时更新 `docs/assets/` 和展示页镜像，禁止只手改其中一份。
+- 展示页新增第三方脚本时必须固定版本、配置 SRI；动态效果须尊重 `prefers-reduced-motion`，新 Tab / 折叠交互须提供键盘可达性。
+
 ## 内容纪律
 
 - 判据自含：不依赖本仓库之外的任何文件；对外引用须标注出处与版本，外链仅允许官方一手来源（verify 对非一手来源给 WARN）。
@@ -60,4 +67,4 @@
 
 1. 更新 `CHANGELOG.md`（把 [Unreleased] 内容归入新版本号）；
 2. 更新 `skill.json` 与 `SKILL.md` frontmatter 的 `version`（两者须一致，verify 会查）；
-3. `python scripts/release.py all`（校验 + 打包 + 安装本机）。
+3. `python scripts/release.py all`（校验 + 打包 + 安装本机；已有安装会保留为带时间戳的同级备份）。

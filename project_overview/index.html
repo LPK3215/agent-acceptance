@@ -6,9 +6,6 @@
 <title>agent-acceptance · 项目全景观览</title>
 <meta name="description" content="agent-acceptance：AI Agent 项目的工程验收与定档标准，全景观览页。">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%230369a1'/%3E%3Cstop offset='1' stop-color='%230f172a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Cpath d='M10 16.5l4.5 4.5L22.5 12' stroke='%23f0b429' stroke-width='3.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
@@ -193,7 +190,7 @@
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8h.01M11 12h1v4h1"></path></svg>
     </span>
     <div>
-      <strong>技能是"体检单"不是"考试"。</strong>你没有的材料 = 该层记<em>未评估</em>，不是失败；结论会因缺口<strong>自动封顶</strong>并写明缺什么、补哪些可升档。只跑 L1 主干（1 → 2 → 7 → 10）一次会话即可出可用初判。
+      <strong>技能是"体检单"不是"考试"。</strong>你没有的材料 = 该层记<em>未评估</em>，不是失败；结论会因缺口<strong>自动封顶</strong>并写明缺什么、补哪些可升档。只跑轻度检查级别（1 -> 2 -> 10）一次会话即可出可用初判。
     </div>
   </div>
 </section>
@@ -247,7 +244,7 @@
             <rect x="60" y="180" width="840" height="112" rx="16" fill="none" class="st-amber" stroke-width="1.6"/>
             <text x="90" y="216" class="svg-tag">第 2 层 · 触发时加载（路由用）</text>
             <text x="90" y="246" class="svg-h">SKILL.md 正文</text>
-            <text x="220" y="246" class="svg-p">一句话定位 · 三种跑法 · 执行硬协议 · 章级路由索引表</text>
+            <text x="220" y="246" class="svg-p">一句话定位 · 四个检查级别 · 执行硬协议 · 章级路由索引表</text>
             <text x="90" y="274" class="svg-p dim">硬协议：入口必经（先过 1 定档）· 收口必经（必进 10）· 产出必落盘（acceptance/&lt;对象&gt;/&lt;日期&gt;/）</text>
           </g>
 
@@ -275,7 +272,7 @@
     <!-- SVG 2：验收流水线 -->
     <div class="tab-panel" data-panel="t2">
       <div class="svg-wrap">
-        <svg viewBox="0 0 960 520" class="arch-svg" role="img" aria-label="P0 到 P3 验收流水线与三档跑法覆盖图">
+        <svg viewBox="0 0 960 520" class="arch-svg" role="img" aria-label="P0 到 P3 验收流水线与四个检查级别覆盖图">
           <defs>
             <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" class="arrow-fill"/>
@@ -322,26 +319,31 @@
             <text x="480" y="461" class="svg-p c dim">16 判点 · 合成验收结论单 · 缺层自动封顶</text>
           </g>
 
-          <text x="480" y="498" class="svg-foot">三档跑法覆盖不同深度 · 章 7 红线触顶即一票否决，任何档位不豁免</text>
+          <text x="480" y="498" class="svg-foot">四个检查级别覆盖不同深度 · 章 7 红线触顶即一票否决，任何级别不豁免</text>
         </svg>
         <div class="svg-tooltip" id="svgTip2"></div>
       </div>
 
       <div class="runway">
         <div class="runway-card">
-          <div class="runway-tag r1">快速初判</div>
-          <div class="runway-path">1 → 2 → 7 → 10</div>
-          <p>一次会话出"体检初判"。3-5 / 6 / 8 / 9 记未评估并自动封顶。</p>
+          <div class="runway-tag r1">轻度（初级检查）</div>
+          <div class="runway-path">1 -> 2 -> 10</div>
+          <p>一次会话出“体检初判”。其余记未评估并自动封顶。</p>
         </div>
         <div class="runway-card">
-          <div class="runway-tag r2">完整验收</div>
-          <div class="runway-path">1 → 2 → 3-5 → 6-9 → 10</div>
-          <p>分批多轮，每章一次会话，章收口出判定表并指明接哪章。</p>
+          <div class="runway-tag r2">中度（中级检查）</div>
+          <div class="runway-path">1 -> 2 -> 7 -> 10</div>
+          <p>轻度 + 安全底线（红线必查），出结论 + 改进清单。</p>
         </div>
         <div class="runway-card">
-          <div class="runway-tag r3">甲方收货</div>
-          <div class="runway-path">1 + 9 + 10（按需补 3 / 7 / 8）</div>
-          <p>以交付物与证据等级为主线做证据核验，结论走 10。</p>
+          <div class="runway-tag r3">重度（高级检查）</div>
+          <div class="runway-path">1 -> 2 -> 3-5 -> 6-9 -> 10</div>
+          <p>分批多轮，每章一次会话，收口合成完整验收结论单。</p>
+        </div>
+        <div class="runway-card">
+          <div class="runway-tag r1">自动（AI 全扫后自选）</div>
+          <div class="runway-path">AI 先读项目再选级别</div>
+          <p>AI 全扫源码与文档后从前三个级别中选/交叉，附带选级别理由。</p>
         </div>
       </div>
     </div>
@@ -464,7 +466,7 @@
       <p class="muted">判的不是"有没有文档"，而是"文档能不能当证据"。</p>
       <ul class="evidence">
         <li><span class="ev e1">E1</span><div><b>可复跑 / 可检查工程证据</b><span>现场可重跑、绑 harness 版本。通用判据下 E1 高于一切声称。</span></div></li>
-        <li><span class="ev e2">E2</span><div><b>官方背书</b><span>CMA/CNAS 报告、官方证书、备案。甲方 / 强合规场景下 E2 高于 E1。</span></div></li>
+        <li><span class="ev e2">E2</span><div><b>官方背书</b><span>CMA/CNAS 报告、官方证书、备案。对外交付 / 强合规场景下 E2 高于 E1。</span></div></li>
         <li><span class="ev e3">E3</span><div><b>文档声称</b><span>自述无锚定。支柱项若为 E3，最高只能"有限 Beta"。</span></div></li>
         <li><span class="ev e4">E4</span><div><b>未证实 / 已证伪</b><span>进 10.2 未证实项清单，绝不混入通过结论。</span></div></li>
       </ul>
@@ -596,7 +598,7 @@
       <div class="redline"><span class="rl-no">7.5.1</span><div><b>红线被平均掩盖</b><span>安全分混入总分被稀释，绕过策略仍得"良好总分"。</span></div></div>
       <div class="redline"><span class="rl-no">7.6.3-7.6.4</span><div><b>数据删不掉或明文裸存</b><span>知识 / 记忆 / 数据库内容无保留期、无清理、无脱敏、无法删除。</span></div></div>
     </div>
-    <div class="mini-note">验收侧快速三问（甲方 / 采购场景）：① 能否按<b>工具 / 数据范围 / 操作类型</b>三档收敛权限？② 敏感操作有无<b>人工审批钩子</b>？③ 日志是否<b>完整可导出</b>？——问不出具体答案即按对应判点记缺失。</div>
+    <div class="mini-note">验收侧快速三问（对外交付 / 采购场景）：① 能否按<b>工具 / 数据范围 / 操作类型</b>三档收敛权限？② 敏感操作有无<b>人工审批钩子</b>？③ 日志是否<b>完整可导出</b>？——问不出具体答案即按对应判点记缺失。</div>
   </div>
 
   <div class="grid grid-2 mt-24">
@@ -760,7 +762,7 @@
   <div class="section-head">
     <span class="section-index">08</span>
     <h2 class="section-title">快速开始</h2>
-    <p class="section-desc">三步：放进技能目录 → 复制对应角色开场白 → 跑。定档问卷以问答形式进行，无需事先阅读正文。</p>
+    <p class="section-desc">三步：放进技能目录 → 复制对应级别开场白 → 跑。定档问卷以问答形式进行，无需事先阅读正文。</p>
   </div>
 
   <div class="grid grid-2">
@@ -785,42 +787,54 @@
     </div>
 
     <div class="card">
-      <h3 class="card-title">② 选角色开场白（复制给 AI 助手即可）</h3>
+      <h3 class="card-title">② 选级别开场白（复制给 AI 助手即可）</h3>
       <div class="tabs tabs-sm" data-tabs="promptTabs">
-        <button class="tab active" data-tab="p1">甲方 / 业务验收方</button>
-        <button class="tab" data-tab="p2">交付团队 / 开发者</button>
-        <button class="tab" data-tab="p3">学习者 / 复核人</button>
+        <button class="tab active" data-tab="l1">轻度</button>
+        <button class="tab" data-tab="l2">中度</button>
+        <button class="tab" data-tab="l3">重度</button>
+        <button class="tab" data-tab="l4">自动</button>
       </div>
-      <div class="tab-panel active" data-panel="p1">
-        <div class="code code-prompt" data-lang="prompt">
-<pre>请使用 agent-acceptance 技能对项目做完整工程验收，技能来源仓库为
-https://github.com/LPK3215/agent-acceptance。项目资料包括仓库、文档与
-演示材料，我会一并提供。请输出档位结论、各章判定表与未证实项清单；
-关键结论逐条附证据，无证据的判定标记为未证实。</pre>
-          <button class="copy-btn" title="复制">复制</button>
-        </div>
-        <div class="mini-note">产出：档位结论 + 各章判定表 + 未证实项清单 + 可供第三方复核复现的报告底稿。</div>
-      </div>
-      <div class="tab-panel" data-panel="p2">
+      <div class="tab-panel active" data-panel="l1">
         <div class="code code-prompt" data-lang="prompt">
 <pre>请使用 agent-acceptance 技能，技能来源仓库为
-https://github.com/LPK3215/agent-acceptance，对项目做上线前自检。
-先执行第 1 章定档问卷，再按第 2 至第 6 章逐层核对检查点；
-第 7 章安全底线必须全部达标；最后输出差距清单、整改优先级
-以及每项缺口的证据要求。</pre>
+https://github.com/LPK3215/agent-acceptance，对项目做轻度检查。
+先执行第 1 章定档问卷，再跑第 2 章系统组成，最后进第 10 章出
+结论。缺材料的层记"未评估"并自动封顶，不拖垮结论。</pre>
           <button class="copy-btn" title="复制">复制</button>
         </div>
-        <div class="mini-note">产出：可逐项核对的检查表 + 按缺口自动封顶档位的整改优先级。</div>
+        <div class="mini-note">产出：骨架初判报告（定档记录 + 系统组成判定表 + 初步结论单），单次会话完成。</div>
       </div>
-      <div class="tab-panel" data-panel="p3">
+      <div class="tab-panel" data-panel="l2">
         <div class="code code-prompt" data-lang="prompt">
 <pre>请使用 agent-acceptance 技能，技能来源仓库为
-https://github.com/LPK3215/agent-acceptance，以全局地图为纲，
-讲解 Agent 项目验收需要覆盖的评估面，重点说明档位判定逻辑与
-安全底线，并结合真实案例说明。</pre>
+https://github.com/LPK3215/agent-acceptance，对项目做中度检查。
+先执行第 1 章定档问卷，再跑第 2 章系统组成与第 7 章安全底线
+（红线必查），最后进第 10 章出结论。安全不达标的项进改进清单，
+给出整改优先级。</pre>
           <button class="copy-btn" title="复制">复制</button>
         </div>
-        <div class="mini-note">产出：随问随答的讲解向导；判据可与 GB/T 25000.51、OWASP Agentic AI Top 10、Agent Card 等外部框架对照。</div>
+        <div class="mini-note">产出：轻度全部 + 安全底线判定表 + 改进清单。</div>
+      </div>
+      <div class="tab-panel" data-panel="l3">
+        <div class="code code-prompt" data-lang="prompt">
+<pre>请使用 agent-acceptance 技能，技能来源仓库为
+https://github.com/LPK3215/agent-acceptance，对项目做重度检查
+（完整验收）。先执行第 1 章定档问卷，再按第 2 至第 9 章逐层
+核对检查点，最后进第 10 章收口合成完整验收结论单。关键结论
+逐条附证据，无证据的判定标记为未证实。可分批多轮执行。</pre>
+          <button class="copy-btn" title="复制">复制</button>
+        </div>
+        <div class="mini-note">产出：完整验收报告底稿（定档记录 + 各章判定表 + 验收结论单 + 未证实项清单 + 改进闭环），可供第三方复核复现。</div>
+      </div>
+      <div class="tab-panel" data-panel="l4">
+        <div class="code code-prompt" data-lang="prompt">
+<pre>请使用 agent-acceptance 技能，技能来源仓库为
+https://github.com/LPK3215/agent-acceptance，对项目做自动检查。
+先全扫项目源码与文档，给出检查级别建议与理由（可按面交叉，
+如本体跑轻度、安全跑中度），我确认后开跑。</pre>
+          <button class="copy-btn" title="复制">复制</button>
+        </div>
+        <div class="mini-note">产出：AI 选级别理由说明 + 按选定级别执行的完整产出。判据可与 GB/T 25000.51、OWASP Agentic AI Top 10 等外部框架对照。</div>
       </div>
     </div>
   </div>
@@ -828,7 +842,7 @@ https://github.com/LPK3215/agent-acceptance，以全局地图为纲，
   <div class="card mt-24">
     <h3 class="card-title">③ 执行硬协议（不可跳过）</h3>
     <div class="proto proto-3">
-      <div class="proto-step"><span class="ps-no">入</span><div><b>入口必经</b><span>任何跑法都从章 1 定档问卷起步，先落一份<em>定档记录</em>；不允许跳过 1 直接点开某章充当入口。</span></div></div>
+      <div class="proto-step"><span class="ps-no">入</span><div><b>入口必经</b><span>任何检查级别都从章 1 定档问卷起步，先落一份<em>定档记录</em>；不允许跳过 1 直接点开某章充当入口。</span></div></div>
       <div class="proto-step"><span class="ps-no">收</span><div><b>收口必经</b><span>跑完各自可达层后一律进章 10，产出<em>验收结论单</em>；不得停在中途某章就算"验完"。</span></div></div>
       <div class="proto-step"><span class="ps-no">盘</span><div><b>产出必落盘</b><span>全部产出写成独立 Markdown，存入被检项目根目录下 <code>acceptance/&lt;被检对象名&gt;/&lt;YYYY-MM-DD&gt;/</code>，按 <code>NN-&lt;主题&gt;.md</code> 命名。</span></div></div>
     </div>
@@ -963,9 +977,9 @@ https://github.com/LPK3215/agent-acceptance，以全局地图为纲，
     </div>
     <div class="tab-panel" data-panel="d3">
       <div class="doc-list">
-        <a class="doc-item" href="../SKILL.md"><span class="doc-name">SKILL.md</span><span class="doc-sum">唯一入口：一句话定位 + 三种跑法 + 执行硬协议 + 章级路由索引表（每行直达一章正文）。</span><span class="doc-meta">进发布物</span></a>
+        <a class="doc-item" href="../SKILL.md"><span class="doc-name">SKILL.md</span><span class="doc-sum">唯一入口：一句话定位 + 四个检查级别 + 执行硬协议 + 章级路由索引表（每行直达一章正文）。</span><span class="doc-meta">进发布物</span></a>
         <a class="doc-item" href="../skill.json"><span class="doc-name">skill.json</span><span class="doc-sum">机器可读元数据，与 frontmatter 双写同步，含 15 个关键词提升可发现性。</span><span class="doc-meta">进发布物</span></a>
-        <a class="doc-item" href="../README.md"><span class="doc-name">README.md</span><span class="doc-sum">使用者视角：档位体系、三种跑法、四种角色的开场白、使用边界与质量标准。</span><span class="doc-meta">不进发布物</span></a>
+        <a class="doc-item" href="../README.md"><span class="doc-name">README.md</span><span class="doc-sum">使用者视角：结论档体系、四个检查级别、各级别开场白与产出、使用边界与质量标准。</span><span class="doc-meta">不进发布物</span></a>
         <a class="doc-item" href="../FAQ.md"><span class="doc-name">FAQ.md</span><span class="doc-sum">九个高频问题：与 benchmark 的区别、是否要全跑十章、block 是否等于不行、如何安装贡献。</span><span class="doc-meta">不进发布物</span></a>
         <a class="doc-item" href="../CONTRIBUTING.md"><span class="doc-name">CONTRIBUTING.md</span><span class="doc-sum">四类改动流程（修错字 / 改判据 / 新增检查面 / 增删章）+ 内容纪律 + 发布流程。</span><span class="doc-meta">不进发布物</span></a>
         <a class="doc-item" href="../CHANGELOG.md"><span class="doc-name">CHANGELOG.md</span><span class="doc-sum">Keep a Changelog 格式，语义化版本。1.0.0（2026-09-03）为首个可发布版本。</span><span class="doc-meta">不进发布物</span></a>
@@ -1100,7 +1114,7 @@ https://github.com/LPK3215/agent-acceptance，以全局地图为纲，
   <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"></path></svg>
 </button>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="./charts.js"></script>
 <script src="./script.js"></script>
 

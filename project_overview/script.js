@@ -65,7 +65,7 @@
       no: '09', file: '09-交付物与证据链.md', name: '交付物与证据链', color: '#34d399',
       pts: 34, lines: 157, role: 'P3 交付证据',
       desc: '交得出什么、哪条证据能进结论：生命周期 10 项工件、证据等级 E1-E4、Agent Card fail-closed、例外审批。',
-      secs: ['9.1 最小交付物清单（生命周期 10 项）', '9.2 证据等级与证据形态', '9.3 验收单 / Agent Card（fail-closed 分档）', '9.4 文档属性与例外审批', '9.5 合规报告骨架（GB/T 25000.51）', '9.6 业务交付验收六维（仅甲方场景启用）']
+      secs: ['9.1 最小交付物清单（生命周期 10 项）', '9.2 证据等级与证据形态', '9.3 验收单 / Agent Card（fail-closed 分档）', '9.4 文档属性与例外审批', '9.5 合规报告骨架（GB/T 25000.51）', '9.6 业务交付验收六维（仅委托方场景启用）']
     },
     {
       no: '10', file: '10-验收结论与档位.md', name: '验收结论与档位', color: '#f0b429',
@@ -108,7 +108,7 @@
         name: 'docs/', type: 'dir', desc: '作者与维护者专用（写作规范 / 结构图 / 依赖 / 速查），自身含规则反例示范，不参与机械扫描',
         children: [
           { name: '00-写作与引用规范.md', type: 'file', desc: '链接白名单 · 字符纪律 · 引用溯源 · T 级素材可信度分级', badge: '100 行' },
-          { name: '01-项目结构与流程图.md', type: 'file', desc: '6 张 Mermaid 图：包结构 · 章 1 分流 · 完整流程 · 三种跑法 · 发布流水线 · 元数据同步', badge: '218 行' },
+          { name: '01-项目结构与流程图.md', type: 'file', desc: '6 张 Mermaid 图：包结构 · 章 1 分流 · 完整流程 · 四个检查级别 · 发布流水线 · 元数据同步', badge: '218 行' },
           { name: '02-章间依赖与数据流.md', type: 'file', desc: '全局数据流 · 每章输入输出 · 强依赖 · 跨章引用热点 · 改动影响面速查', badge: '116 行' },
           { name: '03-维护联动速查.md', type: 'file', desc: '改判据时的联动面清单', badge: '135 行' },
           {
@@ -150,7 +150,7 @@
           { name: 'badges.svg', type: 'file', desc: '徽章条（副本）' }
         ]}
       ]},
-      { name: 'README.md', type: 'file', desc: '使用者视角：档位体系 · 三种跑法 · 四种角色开场白 · 使用边界 · 质量标准' },
+      { name: 'README.md', type: 'file', desc: '使用者视角：结论档体系 · 四个检查级别 · 各级别开场白与产出 · 使用边界 · 质量标准' },
       { name: 'FAQ.md', type: 'file', desc: '九个高频问题' },
       { name: 'CONTRIBUTING.md', type: 'file', desc: '贡献指引：四类改动流程 · 扩容三关 · 内容纪律 · 发布流程' },
       { name: 'CHANGELOG.md', type: 'file', desc: 'Keep a Changelog 格式，语义化版本' },
@@ -310,20 +310,58 @@
   function initTabs() {
     $$('[data-tabs]').forEach(function (group) {
       var tabs = $$('.tab', group);
+      var scope = group.parentElement;
+      var groupName = group.getAttribute('data-tabs');
+      group.setAttribute('role', 'tablist');
       tabs.forEach(function (tab) {
-        tab.addEventListener('click', function () {
+        var name = tab.getAttribute('data-tab');
+        var panel = $('.tab-panel[data-panel="' + name + '"]', scope);
+        var tabId = groupName + '-tab-' + name;
+        var panelId = groupName + '-panel-' + name;
+        tab.id = tabId;
+        tab.setAttribute('role', 'tab');
+        tab.setAttribute('aria-controls', panelId);
+        if (panel) {
+          panel.id = panelId;
+          panel.setAttribute('role', 'tabpanel');
+          panel.setAttribute('aria-labelledby', tabId);
+          panel.setAttribute('tabindex', '0');
+        }
+
+        function activate(moveFocus) {
           tabs.forEach(function (t) { t.classList.remove('active'); });
           tab.classList.add('active');
-          var name = tab.getAttribute('data-tab');
-          // panel 位于 group 的父级 card 内
-          var scope = group.parentElement;
           $$('.tab-panel', scope).forEach(function (p) {
-            p.classList.toggle('active', p.getAttribute('data-panel') === name);
+            var selected = p.getAttribute('data-panel') === name;
+            p.classList.toggle('active', selected);
+            p.setAttribute('aria-hidden', selected ? 'false' : 'true');
           });
+          tabs.forEach(function (t) {
+            var selected = t === tab;
+            t.setAttribute('aria-selected', selected ? 'true' : 'false');
+            t.tabIndex = selected ? 0 : -1;
+          });
+          if (moveFocus) tab.focus();
           if (window.AACharts && typeof window.AACharts.ensure === 'function') {
             setTimeout(function () { window.AACharts.ensure(name); }, 30);
           }
+        }
+
+        tab.addEventListener('click', function () { activate(false); });
+        tab.addEventListener('keydown', function (event) {
+          var index = tabs.indexOf(tab);
+          var next = null;
+          if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (index + 1) % tabs.length;
+          if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = (index - 1 + tabs.length) % tabs.length;
+          if (event.key === 'Home') next = 0;
+          if (event.key === 'End') next = tabs.length - 1;
+          if (next !== null) {
+            event.preventDefault();
+            tabs[next].click();
+            tabs[next].focus();
+          }
         });
+        if (tab.classList.contains('active')) activate(false);
       });
     });
   }

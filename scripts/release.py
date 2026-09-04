@@ -7,7 +7,8 @@
   - 校验复用 scripts/verify.py（比官方 quick_validate 更严：黑名单字符 / wikilink / 链接白名单 / ToC / 元数据三方一致）；
   - 打包单元 = SKILL.md + skill.json + references/（docs/ scripts/ .codebuddy 等维护物不进发布物）；
   - zip 顶层带技能目录名（agent-acceptance/），解压即得一个可直接加载的技能目录；
-  - 提供 install：一键装到本机 CodeBuddy 用户技能目录（~/.codebuddy/skills/<name>/）。
+  - 提供 install：一键装到本机 CodeBuddy 用户技能目录（~/.codebuddy/skills/<name>/）；
+    若同名目录已存在，先保留带时间戳的备份，再切换至新目录。
 
 用法（任意目录执行均可，脚本按自身路径定位仓库根）：
   python scripts/release.py check      一键检验（等价 python scripts/verify.py）
@@ -21,6 +22,7 @@
 """
 
 import argparse
+from datetime import datetime
 import json
 import shutil
 import subprocess
@@ -102,16 +104,41 @@ def cmd_install(dest):
         return 1
     banner("第 2 步 / 安装到本机 CodeBuddy 用户技能目录")
     target = Path(dest).resolve() if dest else DEFAULT_INSTALL
-    if target.exists():
-        print("  [提示] 目标已存在，将整体替换：%s" % target)
-        shutil.rmtree(target)
-    target.mkdir(parents=True)
+    if target == target.parent or not target.name:
+        print("[FAIL] install 目标必须是一个具体技能目录，不能是文件系统根目录。")
+        return 1
+    target.parent.mkdir(parents=True, exist_ok=True)
+    staging = target.parent / (".%s.staging" % target.name)
+    if staging.exists():
+        print("[FAIL] 临时安装目录已存在，请先人工检查后再重试：%s" % staging)
+        return 1
+
+    backup = None
+    try:
+        staging.mkdir()
+        for p in release_items():
+            rel = staging / p.relative_to(ROOT)
+            rel.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(p, rel)
+        if target.exists():
+            stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+            backup = target.parent / (".%s.backup-%s" % (target.name, stamp))
+            target.rename(backup)
+            print("  [备份] %s" % backup)
+        staging.rename(target)
+    except OSError as e:
+        if staging.exists():
+            shutil.rmtree(staging)
+        if backup is not None and backup.exists() and not target.exists():
+            backup.rename(target)
+        print("[FAIL] 安装失败，已尝试恢复原目录：%s" % e)
+        return 1
+
     for p in release_items():
-        rel = target / p.relative_to(ROOT)
-        rel.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(p, rel)
-        print("  + %s" % rel.relative_to(target.parent).as_posix())
+        print("  + %s" % (target / p.relative_to(ROOT)).relative_to(target.parent).as_posix())
     print("\n[OK] 已安装：%s" % target)
+    if backup is not None:
+        print("     原安装内容已保留为：%s" % backup)
     print("     重启 CodeBuddy（或重载技能索引）后，即可用名称触发本技能。")
     return 0
 
