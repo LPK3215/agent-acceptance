@@ -22,3 +22,7 @@ venv/
 # OS
 .DS_Store
 Thumbs.db
+
+# Agent 本地状态（仅本地使用，不进仓库 / 不进发布包）
+.codebuddy/
+.workbuddy/
