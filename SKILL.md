@@ -3,8 +3,8 @@ name: agent-acceptance
 description: 对 AI Agent / 多 Agent（智能体、多智能体）项目做工程验收、评估与定档体检，档位为 Demo / 原型 / 有限 Beta / 生产候选 / block：不评模型强不强，只查它拿不拿得出手、放不放得出去、该给什么档，并产出可第三方复核的验收报告。需要判断项目是否真需要 Agent、系统组成与各部件是否真实接线、评测考卷与判分规则是否可信、安全与权限底线是否达标、能否上线与交付放行时，用它逐层检查，给出未证实项清单与改进闭环。
 metadata:
   author: LPK
-  version: "1.0.0"
-  updated: "2026-09-03"
+  version: "1.1.0"
+  updated: "2026-09-04"
   spec: https://agentskills.io/specification
 ---
 

@@ -83,7 +83,7 @@
 
   /* ---------- 数据：真实目录结构 ---------- */
   var TREE = {
-    name: 'agent-acceptance/', type: 'dir', desc: 'Agent Skills 技能包根目录', open: true, badge: 'v1.0.0',
+    name: 'agent-acceptance/', type: 'dir', desc: 'Agent Skills 技能包根目录', open: true, badge: 'v1.1.0',
     children: [
       { name: 'SKILL.md', type: 'file', desc: '唯一入口：frontmatter 元数据 + 章级路由索引（每行直达一章正文）', badge: '发布物' },
       { name: 'skill.json', type: 'file', desc: '机器可读元数据，与 frontmatter 双写同步，含 15 个关键词', badge: '发布物' },
@@ -137,7 +137,7 @@
         ]
       },
       { name: 'dist/', type: 'dir', desc: '发布产物', children: [
-        { name: 'agent-acceptance-1.0.0.zip', type: 'file', desc: 'v1.0.0 打包产物，zip 顶层带技能目录名，解压即可加载', badge: '122 KB' }
+        { name: 'agent-acceptance-1.1.0.zip', type: 'file', desc: 'v1.1.0 打包产物，zip 顶层带技能目录名，解压即可加载', badge: '122 KB' }
       ]},
       { name: 'project_overview.html', type: 'file', desc: '全景观览页根入口（meta refresh 跳转）', badge: '本页' },
       { name: 'project_overview/', type: 'dir', desc: '全景观览页资源目录', open: true, children: [
