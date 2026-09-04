@@ -3,6 +3,17 @@
 本仓库所有显著变更均记录于此，格式遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循语义化版本。提交历史见 git log，版本节奏说明见 CONTRIBUTING.md。
 
+## [1.2.0] - 2026-09-04
+
+### Changed
+
+- 质量保障三层把关正式成形：机械自检 `verify.py` + 单元测试 `pytest`（tests/ 套件）+ GitHub Actions CI（`.github/workflows/verify.yml`）；全景展示页质量保障段由"无单测无 CI"更正为如实描述三层把关，README / CONTRIBUTING 补齐 tests/ 与 CI 流程。
+
+### Fixed
+
+- 全景展示页展示数字与最新代码对齐：references 篇数（13，含附录 B）/ 总行数（2282）、判点总数（357）、章 2 行数（290）、scripts 行数（verify.py 528 / release.py 168）、tests/ 各文件行数、dist 包大小（131 KB）等写死数值全部同步为真实扫描值；目录树补齐 tests/ 与 .github/。
+- `verify.py` 新增展示页行数 / 文件数漂移检查（references 总行数与各章行数登记），落实 README 声称的"展示页同步：章节行数"；`main()` 开头清空 `results` 修复测试间结果残留导致的误报，单元测试 `pytest` 全绿（71 passed）。
+
 ## [1.1.0] - 2026-09-04
 
 ### Added

@@ -164,7 +164,7 @@ def main():
     # ---- 检查级别区 ----
     run_y = 350
     out.append(_text(30, run_y - 12, "检查级别", 11, C_DIM, "bold", mono=True, spacing="0.1em"))
-    out.append(_text(114, run_y - 12, "第 1 章定档问卷按问题分流，不必十章全跑", 11, C_FAINT))
+    out.append(_text(114, run_y - 12, "四个检查级别包含制，选高自动包含低，不必十章全跑", 11, C_FAINT))
     run_w, run_h = 218, 78
     for i, (name, route, note) in enumerate(RUNS):
         x = 30 + i * (run_w + 9)

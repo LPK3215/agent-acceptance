@@ -49,7 +49,7 @@
 <text x="640" y="186" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif" font-size="11.8" fill="#475569" font-weight="normal" text-anchor="start">档位结论 · 各章判定表</text>
 <text x="640" y="210" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif" font-size="11.8" fill="#475569" font-weight="normal" text-anchor="start">未证实项清单 · 改进闭环</text>
 <text x="30" y="338" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#64748b" font-weight="bold" text-anchor="start" letter-spacing="0.1em">检查级别</text>
-<text x="114" y="338" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif" font-size="11" fill="#94a3b8" font-weight="normal" text-anchor="start">第 1 章定档问卷按问题分流，不必十章全跑</text>
+<text x="114" y="338" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif" font-size="11" fill="#94a3b8" font-weight="normal" text-anchor="start">四个检查级别包含制，选高自动包含低，不必十章全跑</text>
 <rect x="30" y="350" width="218" height="78" rx="11" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" filter="url(#cardShadow)"/>
 <text x="48" y="378" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif" font-size="13.2" fill="#0f172a" font-weight="bold" text-anchor="start">轻度</text>
 <text x="48" y="401" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.4" fill="#0369a1" font-weight="normal" text-anchor="start">1 -&gt; 2 -&gt; 10</text>

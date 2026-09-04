@@ -12,7 +12,7 @@
 - 故意不用 shields.io 外链徽章：verify.py 的 R3 规则会对 http(s) 外链产生 WARN，
   且项目质量声明是「仅余官方一手来源外链提示项」，本地 SVG 徽章零外部依赖。
 - 徽章数值在运行时读取：version / updated 取 skill.json，引用计数取
-  references/*.md 文件数（含 00 全局地图与附录A），不得手工维护常量。
+  references/*.md 文件数（00 全局地图 + 01-10 十章 + 附录A + 附录B），不得手工维护常量。
 
 配色纪律（2026-09-04 修订）：
     与 docs/scripts/generate_overview.py、project_overview/style.css 共用

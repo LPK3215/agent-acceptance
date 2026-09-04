@@ -4,7 +4,7 @@
   <rect x="0.0" y="0" width="84.2" height="22" rx="4" fill="#334155" stroke="rgba(15,23,42,0.08)" stroke-width="1"/>
   <path d="M49.2 0 L80.2 0 a4 4 0 0 1 4 4 L84.2 18 a4 4 0 0 1 -4 4 L49.2 22 Z" fill="#0369a1"/>
   <text x="4.5" y="15.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="11" fill="#ffffff" opacity="0.92">version</text>
-  <text x="53.2" y="15.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="#ffffff">1.1.0</text>
+  <text x="53.2" y="15.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="#ffffff">1.2.0</text>
 </g>
 <g>
   <rect x="91.2" y="0" width="75.5" height="22" rx="4" fill="#334155" stroke="rgba(15,23,42,0.08)" stroke-width="1"/>

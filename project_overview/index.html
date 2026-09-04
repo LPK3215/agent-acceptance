@@ -23,7 +23,7 @@
         </svg>
       </span>
       <span class="brand-text">agent-acceptance</span>
-      <span class="brand-version">v1.1.0</span>
+      <span class="brand-version">v1.2.0</span>
     </a>
 
     <nav class="nav-links" id="navLinks">
@@ -81,7 +81,7 @@
   </div>
   <div class="hero-inner">
     <div class="hero-badge">
-      <span class="dot"></span> Agent Skills 技能包 · 开放验收标准 · v1.1.0（2026-09-04）
+      <span class="dot"></span> Agent Skills 技能包 · 开放验收标准 · v1.2.0（2026-09-04）
     </div>
     <h1 class="hero-title">
       <span class="grad-text">agent-acceptance</span><br>
@@ -114,7 +114,7 @@
 
     <div class="stat-strip">
       <div class="stat"><div class="stat-num" data-count="357">0</div><div class="stat-label">判点总数</div></div>
-      <div class="stat"><div class="stat-num" data-count="10">0</div><div class="stat-label">判据章 + 1 附录</div></div>
+      <div class="stat"><div class="stat-num" data-count="10">0</div><div class="stat-label">判据章 + 2 附录</div></div>
       <div class="stat"><div class="stat-num" data-count="5">0</div><div class="stat-label">结论档位</div></div>
       <div class="stat"><div class="stat-num" data-count="13">0</div><div class="stat-label">组成模块</div></div>
       <div class="stat"><div class="stat-num" data-count="12">0</div><div class="stat-label">上线 Gate</div></div>
@@ -250,12 +250,12 @@
 
           <path d="M480 292 L480 328" class="svg-arrow" marker-end="url(#arrow)"/>
 
-          <g class="arch-layer" data-tip="判据正文按需加载：00 全局地图 + 01-10 十章 + 附录 A。357 个判点，全部自含。">
+          <g class="arch-layer" data-tip="判据正文按需加载：00 全局地图 + 01-10 十章 + 附录 A + 附录 B，共 13 篇。357 个判点，全部自含。">
             <rect x="60" y="336" width="840" height="112" rx="16" fill="url(#gL3)" opacity="0.16"/>
             <rect x="60" y="336" width="840" height="112" rx="16" fill="none" class="st-green" stroke-width="1.6"/>
             <text x="90" y="372" class="svg-tag">第 3 层 · 按需读取（执行用）</text>
             <text x="90" y="402" class="svg-h">references/</text>
-            <text x="220" y="402" class="svg-p">00-全局地图（平级全貌，非必经） · 01-10 章正文 · 附录 A 元规则</text>
+            <text x="220" y="402" class="svg-p">00-全局地图（平级全貌，非必经） · 01-10 章正文 · 附录 A 元规则 · 附录 B 脚手架型通用模板</text>
           </g>
 
           <text x="480" y="462" class="svg-foot">打包单元 = SKILL.md + skill.json + references/　|　docs/ 与 scripts/ 不进发布物</text>
@@ -480,7 +480,7 @@
   <div class="section-head">
     <span class="section-index">03</span>
     <h2 class="section-title">十章判据体系</h2>
-    <p class="section-desc">357 个判点全部自含于 references/，章节标题即评估面。点开任一章看小节与判点数。</p>
+    <p class="section-desc">357 个判点全部自含于 references/ 的 13 篇正文，章节标题即评估面。点开任一章看小节与判点数。</p>
   </div>
 
   <div class="chapter-grid" id="chapterGrid">
@@ -847,15 +847,18 @@ https://github.com/LPK3215/agent-acceptance，对项目做自动检查。
       <div class="proto-step"><span class="ps-no">盘</span><div><b>产出必落盘</b><span>全部产出写成独立 Markdown，存入被检项目根目录下 <code>acceptance/&lt;被检对象名&gt;/&lt;YYYY-MM-DD&gt;/</code>，按 <code>NN-&lt;主题&gt;.md</code> 命名。</span></div></div>
     </div>
     <div class="code mt-16" data-lang="输出目录">
-<pre>acceptance/&lt;被检对象名&gt;/2026-09-03/
-├── 01-定档记录.md          <span class="c-cmt">章 1 输出（含输出目录声明，全流程唯一约定）</span>
-├── 02-系统组成判定表.md     <span class="c-cmt">章 2 输出：13 模块 有/缺/假接线</span>
+<pre>acceptance/&lt;被检对象名&gt;/2026-09-04/
+├── 01-定档记录.md           <span class="c-cmt">章 1 输出（含输出目录声明，全流程唯一约定）</span>
+├── 02-系统组成判定表.md      <span class="c-cmt">章 2 输出：13 模块 有/缺/假接线</span>
 ├── 03-考卷判定表.md
 ├── 04-判分规则判定表.md
 ├── 05-指标与目标值判定表.md
-├── 07-安全底线判定表.md     <span class="c-cmt">必查，红线触顶清单</span>
-├── 10-验收结论单.md         <span class="c-cmt">收口主件</span>
-├── 10-未证实项清单.md       <span class="c-cmt">三件同版本号</span>
+├── 06-运行可观测判定表.md
+├── 07-安全底线判定表.md      <span class="c-cmt">必查，红线触顶清单</span>
+├── 08-生产就绪判定表.md
+├── 09-交付物与证据链判定表.md
+├── 10-验收结论单.md          <span class="c-cmt">收口主件</span>
+├── 10-未证实项清单.md        <span class="c-cmt">三件同版本号</span>
 └── 10-改进闭环跟踪表.md</pre>
       <button class="copy-btn" title="复制">复制</button>
     </div>
@@ -875,7 +878,7 @@ https://github.com/LPK3215/agent-acceptance，对项目做自动检查。
     <div class="card card-sm">
       <div class="stack-ico" style="--ic:var(--accent-2)">Md</div>
       <h4>Markdown</h4>
-      <p>判据正文载体：references/ 13 篇、2280 行；docs/ 维护文档另 4 篇、569 行，全部中文定稿。</p>
+      <p>判据正文载体：references/ 13 篇、2282 行；docs/ 维护文档另 4 篇、590 行，全部中文定稿。</p>
     </div>
     <div class="card card-sm">
       <div class="stack-ico" style="--ic:var(--accent)">Py</div>
@@ -900,8 +903,8 @@ https://github.com/LPK3215/agent-acceptance，对项目做自动检查。
     <table class="tbl">
       <thead><tr><th>文件</th><th>行数</th><th>职责</th></tr></thead>
       <tbody>
-        <tr><td><code>scripts/verify.py</code></td><td>454</td><td>机械自检（发布门禁）：wikilink、黑名单字符、链接白名单、正文小节导航（&gt;100 行须有）、章号一致性、标题主题词三方一致、判点引用完整性、硬协议锚定、references 登记比对</td></tr>
-        <tr><td><code>scripts/release.py</code></td><td>141</td><td>一键发布：check → package（zip 顶层带技能目录名）→ install 到 <code>~/.codebuddy/skills/agent-acceptance/</code></td></tr>
+        <tr><td><code>scripts/verify.py</code></td><td>528</td><td>机械自检（发布门禁）：wikilink、黑名单字符、链接白名单、正文小节导航（&gt;100 行须有）、章号一致性、标题主题词三方一致、判点引用完整性、硬协议锚定、references 登记比对、展示页行数/文件数漂移</td></tr>
+        <tr><td><code>scripts/release.py</code></td><td>168</td><td>一键发布：check → package（zip 顶层带技能目录名）→ install 到 <code>~/.codebuddy/skills/agent-acceptance/</code></td></tr>
         <tr><td><code>scripts/verify.cmd</code> / <code>release.cmd</code></td><td>各 5</td><td>Windows 双击入口，包装对应 Python 脚本</td></tr>
         <tr><td><code>docs/scripts/generate_badges.py</code></td><td>—</td><td>生成 README 顶部徽章条</td></tr>
         <tr><td><code>docs/scripts/generate_overview.py</code></td><td>—</td><td>生成体系总览图，口径变更后重跑即可刷新</td></tr>
@@ -916,10 +919,28 @@ https://github.com/LPK3215/agent-acceptance，对项目做自动检查。
   <div class="section-head">
     <span class="section-index">10</span>
     <h2 class="section-title">质量保障</h2>
-    <p class="section-desc">本项目没有单元测试与 CI 流水线；质量靠"结构与语义双重复核"的机械自检把关。</p>
+    <p class="section-desc">质量由三层把关：维护脚本单元测试（pytest）、GitHub Actions CI、以及结构与语义双重复核的机械自检。</p>
   </div>
 
-  <div class="grid grid-2">
+  <div class="grid grid-3">
+    <div class="card">
+      <h3 class="card-title">单元测试（tests/）</h3>
+      <ul class="check-list">
+        <li><b>test_verify.py</b><span>机械自检各检查函数的正例 / 反例</span></li>
+        <li><b>test_release.py</b><span>校验、打包、安装三步的行为与退出码</span></li>
+        <li><b>test_generate.py</b><span>两个 SVG 生成脚本的输出与双端同步</span></li>
+      </ul>
+      <div class="mini-note">运行：<code>python -m pytest tests/</code>。测试只覆盖维护脚本，不覆盖判据正文——正文由 verify.py 静态校验。</div>
+    </div>
+    <div class="card">
+      <h3 class="card-title">CI（GitHub Actions）</h3>
+      <ul class="check-list">
+        <li><b>触发时机</b><span>向 main 推送、提交 Pull Request、手动触发</span></li>
+        <li><b>执行内容</b><span>checkout → setup-python 3.11 → <code>python scripts/verify.py</code></span></li>
+        <li><b>放行口径</b><span>FAIL 0；仅允许保留 WARN 级官方外链提示项</span></li>
+      </ul>
+      <div class="mini-note">工作流文件：<code>.github/workflows/verify.yml</code>。CI 只跑机械自检，未跑 pytest。</div>
+    </div>
     <div class="card">
       <h3 class="card-title">机械自检：verify.py 查什么</h3>
       <ul class="check-list">
@@ -931,19 +952,21 @@ https://github.com/LPK3215/agent-acceptance，对项目做自动检查。
         <li><b>硬协议锚定</b><span>SKILL.md 中"入口必经 / 收口必经 / 产出必落盘"三条文案在位</span></li>
         <li><b>登记比对</b><span>references/ 实际文件集合必须与 KNOWN_REF_FILES 完全相等</span></li>
         <li><b>元数据三方一致</b><span>SKILL.md frontmatter 与 skill.json 的 name / description / version / author 逐项比对</span></li>
+        <li><b>展示页同步</b><span>判点分布、版本日期、章节行数、资产镜像、依赖安全与基础无障碍</span></li>
       </ul>
       <div class="mini-note">放行条件：<code>FAIL 0</code> 为硬性要求，仅允许保留 WARN 级官方外链提示项。</div>
     </div>
-    <div class="card">
-      <h3 class="card-title">已知缺口（如实标注）</h3>
-      <ul class="gap-list">
-        <li><b>无自动化测试套件</b><span>verify.py 是规范文本的静态校验器，不是单元测试；仓库无 tests/ 目录。</span></li>
-        <li><b>无 CI 流水线</b><span>无 GitHub Actions / 钩子配置，机械自检靠发版前人工执行。</span></li>
-        <li><b>版本号手动双写</b><span>SKILL.md frontmatter 与 skill.json 需人工同步，由 verify.py 兜底校验。</span></li>
-        <li><b>无英文版本</b><span>中文为源语言，英文翻译仅在有明确发布需求时另行推进，不做双语常驻维护。</span></li>
-      </ul>
-      <div class="mini-note">其余章节中"测试与质量"相关的外部覆盖率、CI 状态等信息在本项目不存在，按规范不占位。</div>
-    </div>
+  </div>
+
+  <div class="card mt-24">
+    <h3 class="card-title">已知缺口（如实标注）</h3>
+    <ul class="gap-list">
+      <li><b>UI 无浏览器实测</b><span>展示页只有机械层面的无障碍锚点检查（ARIA / 键盘 / 减少动效），未在真实浏览器做过视觉与交互回归。</span></li>
+      <li><b>版本号手动双写</b><span>SKILL.md frontmatter 与 skill.json 需人工同步，由 verify.py 兜底校验。</span></li>
+      <li><b>无英文版本</b><span>中文为源语言，英文翻译仅在有明确发布需求时另行推进，不做双语常驻维护。</span></li>
+      <li><b>发布物需手动重打</b><span>dist/ 下的 zip 是构建产物，正文改动后须重跑 release.py 才会刷新，存在滞后窗口。</span></li>
+    </ul>
+    <div class="mini-note">其余章节中"测试与质量"相关的外部覆盖率、CI 状态等信息在本项目不存在，按规范不占位。</div>
   </div>
 </section>
 
@@ -952,7 +975,7 @@ https://github.com/LPK3215/agent-acceptance，对项目做自动检查。
   <div class="section-head">
     <span class="section-index">11</span>
     <h2 class="section-title">文档索引</h2>
-    <p class="section-desc">判据正文 12 篇 + 维护文档 4 篇。判据篇为技能核心资产，维护篇不进发布物。</p>
+    <p class="section-desc">判据正文 13 篇（全局地图 + 十章 + 2 附录）+ 维护文档 4 篇。判据篇为技能核心资产，维护篇不进发布物。</p>
   </div>
 
   <div class="tabs" data-tabs="docTabs">
@@ -968,9 +991,9 @@ https://github.com/LPK3215/agent-acceptance，对项目做自动检查。
     <div class="tab-panel" data-panel="d2">
       <div class="doc-list">
         <a class="doc-item" href="../docs/00-写作与引用规范.md"><span class="doc-name">docs/00-写作与引用规范.md</span><span class="doc-sum">写作与引用纪律：链接白名单、字符纪律、引用溯源与 T 级素材可信度分级。改判据前必读。</span><span class="doc-meta">100 行 · 不进发布物</span></a>
-        <a class="doc-item" href="../docs/01-项目结构与流程图.md"><span class="doc-name">docs/01-项目结构与流程图.md</span><span class="doc-sum">用图回答三问：包由什么组成 / 章 1 怎么分流 / 一次完整验收怎么走。含 6 张 Mermaid 图。</span><span class="doc-meta">218 行 · 不进发布物</span></a>
+        <a class="doc-item" href="../docs/01-项目结构与流程图.md"><span class="doc-name">docs/01-项目结构与流程图.md</span><span class="doc-sum">用图回答三问：包由什么组成 / 章 1 怎么分流 / 一次完整验收怎么走。含 6 张 Mermaid 图。</span><span class="doc-meta">222 行 · 不进发布物</span></a>
         <a class="doc-item" href="../docs/02-章间依赖与数据流.md"><span class="doc-name">docs/02-章间依赖与数据流.md</span><span class="doc-sum">章与章的接线：全局数据流、每章输入输出字段、强依赖、跨章引用热点、改动影响面速查。</span><span class="doc-meta">116 行 · 不进发布物</span></a>
-        <a class="doc-item" href="../docs/03-维护联动速查.md"><span class="doc-name">docs/03-维护联动速查.md</span><span class="doc-sum">改判据时的联动面清单：哪些改动需要同步哪些文件与登记表。</span><span class="doc-meta">135 行 · 不进发布物</span></a>
+        <a class="doc-item" href="../docs/03-维护联动速查.md"><span class="doc-name">docs/03-维护联动速查.md</span><span class="doc-sum">改判据时的联动面清单：哪些改动需要同步哪些文件与登记表。</span><span class="doc-meta">152 行 · 不进发布物</span></a>
         <a class="doc-item" href="../docs/scripts/generate_badges.py"><span class="doc-name">docs/scripts/generate_badges.py</span><span class="doc-sum">生成 README 顶部徽章条 badges.svg，零外部依赖。</span><span class="doc-meta">脚本 · 不进发布物</span></a>
         <a class="doc-item" href="../docs/scripts/generate_overview.py"><span class="doc-name">docs/scripts/generate_overview.py</span><span class="doc-sum">生成体系总览图 overview.svg；口径变更后重跑该脚本即可刷新，勿手改 SVG。</span><span class="doc-meta">脚本 · 不进发布物</span></a>
       </div>
@@ -1023,7 +1046,7 @@ https://github.com/LPK3215/agent-acceptance，对项目做自动检查。
   </div>
 
   <div class="card mt-24">
-    <h3 class="card-title">发布流程（当前 1.1.0）</h3>
+    <h3 class="card-title">发布流程（当前 1.2.0）</h3>
     <div class="steps">
       <div class="step"><span class="step-no">1</span><span>更新 CHANGELOG.md，把 [Unreleased] 归入新版本号</span></div>
       <div class="step"><span class="step-no">2</span><span>更新 skill.json 与 SKILL.md frontmatter 的 version（两者须一致，verify 会查）</span></div>
@@ -1047,7 +1070,7 @@ https://github.com/LPK3215/agent-acceptance，对项目做自动检查。
       <p>本仓库以 <b>MIT License</b> 开源。作者与主要贡献者见 AUTHORS，版本变更记录见 CHANGELOG.md。</p>
       <div class="license-box">
         <div><span>项目</span><b>agent-acceptance</b></div>
-        <div><span>版本</span><b>1.1.0（2026-09-04）</b></div>
+        <div><span>版本</span><b>1.2.0（2026-09-04）</b></div>
         <div><span>作者</span><b>LPK</b></div>
         <div><span>协议</span><b>MIT</b></div>
         <div><span>规范</span><b>Agent Skills Specification</b></div>
@@ -1060,7 +1083,7 @@ https://github.com/LPK3215/agent-acceptance，对项目做自动检查。
   title  = {agent-acceptance: AI Agent 项目的工程验收与定档},
   author = {LPK},
   year   = {2026},
-  note   = {v1.1.0, 判据正文见 references/ 目录},
+  note   = {v1.2.0, 判据正文见 references/ 目录},
   url    = {https://github.com/LPK3215/agent-acceptance}
 }</pre>
         <button class="copy-btn" title="复制">复制</button>
@@ -1095,7 +1118,7 @@ https://github.com/LPK3215/agent-acceptance，对项目做自动检查。
       <span class="brand-mark sm" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
       </span>
-      agent-acceptance <span class="muted">· v1.1.0 · MIT</span>
+      agent-acceptance <span class="muted">· v1.2.0 · MIT</span>
     </div>
     <div class="footer-links">
       <a href="https://github.com/LPK3215/agent-acceptance" target="_blank" rel="noopener">仓库</a>

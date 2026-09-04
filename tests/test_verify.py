@@ -317,12 +317,17 @@ class TestCheckProjectOverview:
         verify.results.clear()
         ov_dir = tmp_path / "project_overview"
         ov_dir.mkdir()
-        # 1 章 2 个判点，其余 0
+        # 单文件样例仓库：references/ 下只有 01 章，2 行，2 个判点
+        ref_dir = tmp_path / "references"
+        ref_dir.mkdir()
+        (ref_dir / "01-范围、形态与档位.md").write_text("a\nb\n", encoding="utf-8")
+        monkeypatch.setattr(verify, "REF_DIR", ref_dir)
+        monkeypatch.setattr(verify, "KNOWN_REF_FILES", {"01-范围、形态与档位.md"})
+        # charts 与 script.js 判点分布一致：章 1 = 2，其余 0
         charts = "var data = [2, 0, 0, 0, 0, 0, 0, 0, 0, 0];"
-        # script.js 中章节判点数必须与 charts 一致
         script = (
             "var chapters = [\n"
-            "  { no: '01', pts: 2 },\n"
+            "  { no: '01', file: '01-范围、形态与档位.md', pts: 2, lines: 2 },\n"
             "  { no: '02', pts: 0 },\n"
             "  { no: '03', pts: 0 },\n"
             "  { no: '04', pts: 0 },\n"
@@ -340,6 +345,7 @@ class TestCheckProjectOverview:
         html = (
             f"v{sample_metadata['version']} {sample_metadata['updated']}"
             'data-count="2" data-count="2" 2 个判点'
+            'references/ 1 篇 2 行'
             '<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"'
             ' integrity="sha384-abc" crossorigin="anonymous"></script>'
         )
@@ -350,11 +356,11 @@ class TestCheckProjectOverview:
 
         docs_assets = tmp_path / "docs" / "assets"
         docs_assets.mkdir(parents=True)
-        # badges.svg 必须包含 version / updated / 文件数
+        # badges.svg 必须包含 version / updated / 文件数（与 KNOWN_REF_FILES 一致）
         badge_content = (
             f">1.0.0</text>"
             f">2026-09-04</text>"
-            f">12</text>"
+            f">1</text>"
         )
         for name in ("badges.svg", "overview.svg"):
             (ov_dir / "assets").mkdir(exist_ok=True)

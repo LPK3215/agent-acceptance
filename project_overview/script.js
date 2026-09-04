@@ -5,23 +5,23 @@
 (function () {
   'use strict';
 
-  /* ---------- 数据：references/ 十二篇（行数 / 判点数取自实际扫描） ---------- */
+  /* ---------- 数据：references/ 十三篇（行数 / 判点数取自实际扫描） ---------- */
   var CHAPTERS = [
     {
       no: '00', file: '00-全局地图.md', name: '全局地图', color: '#a78bfa',
-      pts: 0, lines: 195, role: '全貌图 · 非执行必经',
+      pts: 0, lines: 201, role: '全貌图 · 非执行必经',
       desc: '章树全貌（对象全景，穷尽该检查的全部面）。供全貌扫描、核对覆盖盲区与扩容登记用，与章正文平级。',
       secs: ['分层速览索引表（P0-P3 + L1/L2/L3）', '1 范围、形态与档位', '2 系统组成与真实接线', '3 考卷与评测集', '4 判分规则', '5 指标与目标值', '6 运行可观测', '7 安全与权限底线', '8 生产就绪与上线', '9 交付物与证据链', '10 验收结论与档位']
     },
     {
       no: '01', file: '01-范围、形态与档位.md', name: '范围、形态与档位', color: '#f43f5e',
-      pts: 23, lines: 160, role: 'P0 定档问卷 · 必经入口',
+      pts: 23, lines: 174, role: 'P0 定档问卷 · 必经入口',
       desc: '选层问卷：证是否真需要 Agent，锁形态 / 技术栈 / 边界 / 成功标准 / 自主度档，输出定档记录。',
       secs: ['1.1 是否真需要 Agent（过度设计四问）', '1.2 载体形态（六分法）', '1.3 技术栈', '1.4 目标与任务边界', '1.5 成功标准与验收口径（可测试）', '1.6 自主度 / 角色分级与适用档位 G1-G4']
     },
     {
       no: '02', file: '02-系统组成与真实接线.md', name: '系统组成与真实接线', color: '#38bdf8',
-      pts: 68, lines: 289, role: 'P1 组成可查 · 判点最多',
+      pts: 68, lines: 290, role: 'P1 组成可查 · 判点最多',
       desc: '按组成拆开逐块查齐不齐、接没接线，只判实现真实可用。判点最多的一章——本体齐不齐是所有判据的地基。',
       secs: ['2.1 模型与认知核心层', '2.2 上下文管理', '2.3 自主执行循环', '2.4 规划与推理落地', '2.5 工具与技能接入层', '2.6 记忆机制实现', '2.7 反思与自我改进回路', '2.8 知识库与 RAG', '2.9 文档与内容解析', '2.10 数据与文件管理', '2.11 状态与编排', '2.12 Harness 运行时（8 元件）', '2.13 多 Agent 协作']
     },
@@ -51,7 +51,7 @@
     },
     {
       no: '07', file: '07-安全与权限底线.md', name: '安全与权限底线', color: '#f43f5e',
-      pts: 38, lines: 181, role: 'P3 · 必查不可跳',
+      pts: 38, lines: 188, role: 'P3 · 必查不可跳',
       desc: '不越权、不上当、关键交人、数据可管。红线触顶清单是章 8 Gate 前置与章 10 一票否决的唯一来源。',
       secs: ['7.1 最小权限与授权模型', '7.2 工具治理', '7.3 注入与内容隔离', '7.4 人工确认设计', '7.5 安全测试与红线', '7.6 数据治理与数据生命周期']
     },
@@ -81,7 +81,7 @@
     },
     {
       no: 'B', file: '附录B-脚手架型通用接入模板.md', name: '附录 B 脚手架型通用接入模板', color: '#6d28d9',
-      pts: 0, lines: 333, role: '脚手架型项目 · 通用模板',
+      pts: 0, lines: 335, role: '脚手架型项目 · 通用模板',
       desc: '红线清单模板 + 护栏/HITL/评估/反思接入位置文档化示例 + 安全测试框架扩展位置模板。语言无关，套进去改名字就能用。',
       secs: ['B.1 安全红线清单模板（7.5.1）', 'B.2 护栏与 HITL 接入位置示例（2.12.5）', 'B.3 评估挂钩接入位置示例（2.12.7）', 'B.4 反思回路接入位置示例（2.7）', 'B.5 安全测试框架扩展位置模板（7.5.2-7.5.6）']
     }
@@ -89,14 +89,14 @@
 
   /* ---------- 数据：真实目录结构 ---------- */
   var TREE = {
-    name: 'agent-acceptance/', type: 'dir', desc: 'Agent Skills 技能包根目录', open: true, badge: 'v1.1.0',
+    name: 'agent-acceptance/', type: 'dir', desc: 'Agent Skills 技能包根目录', open: true, badge: 'v1.2.0',
     children: [
       { name: 'SKILL.md', type: 'file', desc: '唯一入口：frontmatter 元数据 + 章级路由索引（每行直达一章正文）', badge: '发布物' },
       { name: 'skill.json', type: 'file', desc: '机器可读元数据，与 frontmatter 双写同步，含 15 个关键词', badge: '发布物' },
       {
-        name: 'references/', type: 'dir', desc: '判据正文 · 技能核心资产（12 个文件，357 判点）', open: true, badge: '发布物',
+        name: 'references/', type: 'dir', desc: '判据正文 · 技能核心资产（13 个文件，357 判点）', open: true, badge: '发布物',
         children: [
-          { name: '00-全局地图.md', type: 'file', desc: '章树全貌（平级成员，供全貌扫描与扩容登记，非执行必经）', badge: '195 行' },
+          { name: '00-全局地图.md', type: 'file', desc: '章树全貌（平级成员，供全貌扫描与扩容登记，非执行必经）', badge: '201 行' },
           { name: '01-范围、形态与档位.md', type: 'file', desc: 'P0 定档问卷：过度设计四问 · 形态 · 技术栈 · 边界 · 成功标准 · G1-G4', badge: '23 判点' },
           { name: '02-系统组成与真实接线.md', type: 'file', desc: 'P1：13 大模块逐块查齐不齐、接没接线（判点最多）', badge: '68 判点' },
           { name: '03-考卷与评测集.md', type: 'file', desc: 'P2：自评基建 · 测试集构成 · 风险样本六类 · 基线三件套 · 污染检测', badge: '41 判点' },
@@ -115,9 +115,9 @@
         name: 'docs/', type: 'dir', desc: '作者与维护者专用（写作规范 / 结构图 / 依赖 / 速查），自身含规则反例示范，不参与机械扫描',
         children: [
           { name: '00-写作与引用规范.md', type: 'file', desc: '链接白名单 · 字符纪律 · 引用溯源 · T 级素材可信度分级', badge: '100 行' },
-          { name: '01-项目结构与流程图.md', type: 'file', desc: '6 张 Mermaid 图：包结构 · 章 1 分流 · 完整流程 · 四个检查级别 · 发布流水线 · 元数据同步', badge: '218 行' },
+          { name: '01-项目结构与流程图.md', type: 'file', desc: '6 张 Mermaid 图：包结构 · 章 1 分流 · 完整流程 · 四个检查级别 · 发布流水线 · 元数据同步', badge: '222 行' },
           { name: '02-章间依赖与数据流.md', type: 'file', desc: '全局数据流 · 每章输入输出 · 强依赖 · 跨章引用热点 · 改动影响面速查', badge: '116 行' },
-          { name: '03-维护联动速查.md', type: 'file', desc: '改判据时的联动面清单', badge: '135 行' },
+          { name: '03-维护联动速查.md', type: 'file', desc: '改判据时的联动面清单', badge: '152 行' },
           {
             name: 'assets/', type: 'dir', desc: '可视化资产（脚本生成，勿手改）',
             children: [
@@ -137,14 +137,27 @@
       {
         name: 'scripts/', type: 'dir', desc: '维护工具（发布门禁）',
         children: [
-          { name: 'verify.py', type: 'file', desc: '机械自检：结构与语义双重复核，FAIL 0 为硬性放行条件', badge: '454 行' },
-          { name: 'release.py', type: 'file', desc: '一键发布：check → package → install', badge: '141 行' },
+          { name: 'verify.py', type: 'file', desc: '机械自检：结构与语义双重复核，FAIL 0 为硬性放行条件', badge: '528 行' },
+          { name: 'release.py', type: 'file', desc: '一键发布：check → package → install', badge: '168 行' },
           { name: 'verify.cmd', type: 'file', desc: 'Windows 双击入口，包装 verify.py' },
           { name: 'release.cmd', type: 'file', desc: 'Windows 双击入口，包装 release.py' }
         ]
       },
+      {
+        name: 'tests/', type: 'dir', desc: '维护脚本单元测试（pytest），覆盖 verify / release / 两个 SVG 生成脚本；CI 目前只跑 verify.py', children: [
+          { name: 'conftest.py', type: 'file', desc: '共享 fixtures：仓库根路径导入与临时仓库骨架', badge: '90 行' },
+          { name: 'test_verify.py', type: 'file', desc: '机械自检各检查函数的正例 / 反例', badge: '395 行' },
+          { name: 'test_release.py', type: 'file', desc: '校验 / 打包 / 安装三步的行为与退出码', badge: '160 行' },
+          { name: 'test_generate.py', type: 'file', desc: '两个 SVG 生成脚本的输出与双端同步', badge: '207 行' }
+        ]
+      },
+      {
+        name: '.github/', type: 'dir', desc: 'CI 配置', dim: true, children: [
+          { name: 'workflows/verify.yml', type: 'file', desc: '推送 main / PR / 手动触发时运行 scripts/verify.py', dim: true, badge: '22 行' }
+        ]
+      },
       { name: 'dist/', type: 'dir', desc: '发布产物', children: [
-        { name: 'agent-acceptance-1.1.0.zip', type: 'file', desc: 'v1.1.0 打包产物，zip 顶层带技能目录名，解压即可加载', badge: '122 KB' }
+        { name: 'agent-acceptance-1.2.0.zip', type: 'file', desc: 'v1.2.0 打包产物，zip 顶层带技能目录名，解压即可加载', badge: '131 KB' }
       ]},
       { name: 'project_overview.html', type: 'file', desc: '全景观览页根入口（meta refresh 跳转）', badge: '本页' },
       { name: 'project_overview/', type: 'dir', desc: '全景观览页资源目录', open: true, children: [
@@ -158,6 +171,14 @@
         ]}
       ]},
       { name: 'README.md', type: 'file', desc: '使用者视角：结论档体系 · 四个检查级别 · 各级别开场白与产出 · 使用边界 · 质量标准' },
+      { name: '测试项目临时用/', type: 'dir', desc: '本地验证技能的样本项目与验收产物（三个开源项目 + 汇总报告），不进发布物', dim: true, children: [
+        { name: 'pi-starter/', type: 'dir', desc: '样本：Pi Agent SDK 脚手架（TypeScript）', dim: true },
+        { name: 'pi-agent-scaffold/', type: 'dir', desc: '样本：Pi Agent 脚手架（TypeScript）', dim: true },
+        { name: 'agentbase/', type: 'dir', desc: '样本：Python Agent 框架（含自身测试与 CI）', dim: true },
+        { name: '三项目验收结果汇总.md', type: 'file', desc: '三个样本的验收结果横向对比', dim: true },
+        { name: '四级别全量深度分析报告.md', type: 'file', desc: '四个检查级别跑同一项目的深度对比', dim: true },
+        { name: '四级别结果汇总判断.md', type: 'file', desc: '四级别结论汇总与判断依据', dim: true }
+      ]},
       { name: 'FAQ.md', type: 'file', desc: '九个高频问题' },
       { name: 'CONTRIBUTING.md', type: 'file', desc: '贡献指引：四类改动流程 · 扩容三关 · 内容纪律 · 发布流程' },
       { name: 'CHANGELOG.md', type: 'file', desc: 'Keep a Changelog 格式，语义化版本' },
@@ -168,19 +189,19 @@
 
   /* ---------- 数据：references 文档索引（注入到 Tab d1） ---------- */
   var REF_DOCS = [
-    { f: '00-全局地图.md', s: '章树全貌：分层速览索引表（P0-P3 / L1-L3）+ 十章对象全景，供全貌扫描与扩容登记。', m: '195 行 · 平级成员' },
-    { f: '01-范围、形态与档位.md', s: '必经入口：过度设计四问 + 形态六分法 + 技术栈 + 边界 + 成功标准 + 自主度 G1-G4，输出定档记录。', m: '160 行 · 23 判点' },
-    { f: '02-系统组成与真实接线.md', s: '13 大模块逐块查齐不齐、接没接线，含 Harness 运行时八元件与多 Agent 协作。', m: '289 行 · 68 判点' },
+    { f: '00-全局地图.md', s: '章树全貌：分层速览索引表（P0-P3 / L1-L3）+ 十章对象全景，供全貌扫描与扩容登记。', m: '201 行 · 平级成员' },
+    { f: '01-范围、形态与档位.md', s: '必经入口：过度设计四问 + 形态六分法 + 技术栈 + 边界 + 成功标准 + 自主度 G1-G4，输出定档记录。', m: '174 行 · 23 判点' },
+    { f: '02-系统组成与真实接线.md', s: '13 大模块逐块查齐不齐、接没接线，含 Harness 运行时八元件与多 Agent 协作。', m: '290 行 · 68 判点' },
     { f: '03-考卷与评测集.md', s: '自评基建到资产治理八节；risk 样本六类、基线三件套、污染检测与可复现性。', m: '191 行 · 41 判点' },
     { f: '04-判分规则.md', s: 'rubric 锚点、评分器三类型、判定算法五件套、judge 选型与偏差、校准与漂移、分组件评估。', m: '161 行 · 39 判点' },
     { f: '05-指标与目标值.md', s: '度量口径、完成率四件套、分域质量门、五层 SLI-SLO、成本预算与两段式阈值。', m: '135 行 · 30 判点' },
     { f: '06-运行可观测.md', s: 'trace/span 骨架、十字段必埋、step 级归因、审计日志与链路回放、版本绑定与奖励黑客插桩。', m: '132 行 · 29 判点' },
-    { f: '07-安全与权限底线.md', s: '最小权限、工具治理、注入隔离、人工确认、红线与攻击库入 CI、数据生命周期；含 OWASP ASI 对照表。', m: '181 行 · 38 判点' },
+    { f: '07-安全与权限底线.md', s: '最小权限、工具治理、注入隔离、人工确认、红线与攻击库入 CI、数据生命周期；含 OWASP ASI 对照表。', m: '188 行 · 38 判点' },
     { f: '08-生产就绪与上线.md', s: '四可、12 Gate 主干、失败隔离五件、灰度与回滚治理、复认证 go/no-go、事件响应、漂移监控。', m: '171 行 · 39 判点' },
     { f: '09-交付物与证据链.md', s: '生命周期 10 项工件、证据等级 E1-E4、Agent Card fail-closed 分档、例外审批、GB/T 25000.51 骨架。', m: '157 行 · 34 判点' },
     { f: '10-验收结论与档位.md', s: '否决先行、加权定档、未证实项清单、改进回归闭环；含落盘与归档规定。', m: '89 行 · 16 判点' },
     { f: '附录A-元规则.md', s: 'Out of Scope 五条 + 验收者反模式自查六条 + 检查者出师自检。', m: '58 行 · 11 条目' },
-    { f: '附录B-脚手架型通用接入模板.md', s: '红线清单模板 + 护栏/HITL/评估/反思接入位置示例 + 安全测试框架扩展模板。语言无关，套进去改名字就能用。', m: '333 行 · 5 模板' }
+    { f: '附录B-脚手架型通用接入模板.md', s: '红线清单模板 + 护栏/HITL/评估/反思接入位置示例 + 安全测试框架扩展模板。语言无关，套进去改名字就能用。', m: '335 行 · 5 模板' }
   ];
 
   /* ---------- 工具 ---------- */

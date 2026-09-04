@@ -432,10 +432,27 @@ def check_project_overview(meta, universe):
             if value and (">%s</text>" % value) not in badge.read_text(encoding="utf-8"):
                 note("FAIL", "docs/assets/badges.svg 未同步源数据 %s（请重跑 generate_badges.py）" % value)
 
+    # 展示页行数 / 文件数漂移检查（防"章节行数"类数字失真）
+    ref_lines = {p.name: len(p.read_text(encoding="utf-8").splitlines()) for p in REF_DIR.glob("*.md")}
+    ref_total = sum(ref_lines.values())
+    if ("references/ %d 篇" % len(ref_lines)) not in html:
+        note("FAIL", "project_overview/index.html 的 references/ 篇数未同步为 %d" % len(ref_lines))
+    if ("%d 行" % ref_total) not in html:
+        note("FAIL", "project_overview/index.html 的 references/ 总行数未同步为 %d" % ref_total)
+    file_lines = dict(re.findall(r"file:\s*'([^']+\.md)'.*?lines:\s*(\d+)", script, re.S))
+    for name, real in ref_lines.items():
+        shown = file_lines.get(name)
+        if shown is None:
+            note("FAIL", "project_overview/script.js 的 CHAPTERS 缺失文件 %s 的行数登记" % name)
+        elif int(shown) != real:
+            note("FAIL", "project_overview/script.js 的 %s 行数登记为 %s，与磁盘实际 %d 行不一致"
+                 % (name, shown, real))
+
 
 # ---------- 主流程 ----------
 
 def main():
+    results.clear()  # 每次运行独立：避免测试/重复调用时残留历史结果
     quiet = "--quiet" in sys.argv[1:]
 
     # A. 元数据一致性（frontmatter <-> skill.json <-> 目录名）

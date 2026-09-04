@@ -5,11 +5,13 @@
 ## 仓库结构与角色
 
 - `SKILL.md`：唯一入口（元数据 + 章级路由索引），不承载判据正文
-- `references/`：判据正文（章 01-10 + 附录 A）与全局地图（00），技能包核心资产
+- `references/`：判据正文（章 01-10 + 附录 A 元规则 + 附录 B 脚手架型通用接入模板）与全局地图（00），技能包核心资产
 - `docs/`：作者维护区（写作规范、结构、依赖、速查），自身含规则反例示范，不参与机械扫描
 - `project_overview/`：仓库全景展示页，不进发布包；其判点统计、元数据、生成资产与基础访问性由 verify 交叉检查
 - `scripts/verify.py`：机械自检（发布门禁）
 - `scripts/release.py`：一键发布（校验 -> 打包 -> 安装本机，覆盖安装前保留备份）
+- `tests/`：维护脚本单元测试（pytest），覆盖 verify / release / 两个 SVG 生成脚本
+- `.github/workflows/verify.yml`：GitHub Actions 校验工作流（推送 main、PR、手动触发）
 
 ## 改动类型与对应流程
 
@@ -55,6 +57,11 @@
 - 写作遵循 `docs/00`：链接只指向技能包内部文件（入口 + references/），字符纪律（含全角标点、禁用清单）以规范为准。
 - 中文为源语言：正文以中文定稿，英文翻译仅在有明确发布需求时另行推进，不做双语常驻维护。
 
+### 6. 修改维护脚本
+
+- `scripts/` 下脚本改动后，同步更新 `tests/` 中对应单元测试，并跑 `python -m pytest tests/`。
+- 判据正文或文件行数变化会导致展示页数值漂移，由 `python scripts/verify.py` 兜底；展示页数值类 FAIL 按 `docs/03-维护联动速查.md` 第 7 节逐项修正。
+
 ## 提交与合并约定
 
 - 提交信息用 `type: 简述` 前缀（`feat` / `fix` / `docs` / `refactor` / `chore`），中文描述。
@@ -63,7 +70,7 @@
 
 ## 发布流程
 
-版本号与节奏由维护者决定（当前 1.0.0）。发版时：
+版本号与节奏由维护者决定（当前 1.2.0）。发版时：
 
 1. 更新 `CHANGELOG.md`（把 [Unreleased] 内容归入新版本号）；
 2. 更新 `skill.json` 与 `SKILL.md` frontmatter 的 `version`（两者须一致，verify 会查）；
