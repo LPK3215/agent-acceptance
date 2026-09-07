@@ -43,6 +43,7 @@ class TestReleaseItems:
         names = {p.name for p in items}
         assert "SKILL.md" in names
         assert "skill.json" in names
+        assert "LICENSE" in names
 
     def test_includes_references(self, repo_root):
         items = release.release_items()
@@ -84,6 +85,7 @@ class TestCmdPackage:
             # 应含 SKILL.md 与 skill.json
             assert any("SKILL.md" in n for n in names)
             assert any("skill.json" in n for n in names)
+            assert any(n.endswith("/LICENSE") or n.endswith("LICENSE") for n in names)
 
     def test_package_skips_without_verify(self, tmp_path, monkeypatch):
         # 校验未通过时，cmd_package 应中止
@@ -92,6 +94,54 @@ class TestCmdPackage:
         monkeypatch.setattr(release, "run_verify", lambda: False)
         rc = release.cmd_package(str(tmp_path / "dist"))
         assert rc == 1
+
+
+class TestResolveInstallTargets:
+    """resolve_install_targets()：显式 dest 优先；否则探测本机助手目录。"""
+
+    def test_explicit_dest_wins(self, tmp_path):
+        dest = tmp_path / "skills" / "agent-acceptance"
+        targets = release.resolve_install_targets(str(dest))
+        assert targets == [dest.resolve()]
+
+    def test_detects_existing_claude(self, tmp_path, monkeypatch):
+        claude_skills = tmp_path / ".claude" / "skills"
+        codebuddy_skills = tmp_path / ".codebuddy" / "skills"
+        (tmp_path / ".claude").mkdir()
+        monkeypatch.setattr(
+            release,
+            "known_skill_parents",
+            lambda: (codebuddy_skills, claude_skills),
+        )
+        targets = release.resolve_install_targets(None)
+        assert targets == [claude_skills / release.SKILL_NAME]
+
+    def test_detects_both_assistants(self, tmp_path, monkeypatch):
+        claude_skills = tmp_path / ".claude" / "skills"
+        codebuddy_skills = tmp_path / ".codebuddy" / "skills"
+        (tmp_path / ".claude").mkdir()
+        (tmp_path / ".codebuddy").mkdir()
+        monkeypatch.setattr(
+            release,
+            "known_skill_parents",
+            lambda: (codebuddy_skills, claude_skills),
+        )
+        targets = release.resolve_install_targets(None)
+        assert targets == [
+            codebuddy_skills / release.SKILL_NAME,
+            claude_skills / release.SKILL_NAME,
+        ]
+
+    def test_fallback_when_none_exist(self, tmp_path, monkeypatch):
+        claude_skills = tmp_path / ".claude" / "skills"
+        codebuddy_skills = tmp_path / ".codebuddy" / "skills"
+        monkeypatch.setattr(
+            release,
+            "known_skill_parents",
+            lambda: (codebuddy_skills, claude_skills),
+        )
+        targets = release.resolve_install_targets(None)
+        assert targets == [codebuddy_skills / release.SKILL_NAME]
 
 
 # ---------------------------------------------------------------------------
@@ -109,6 +159,7 @@ class TestCmdInstall:
         assert rc == 0
         assert (dest / "SKILL.md").exists()
         assert (dest / "skill.json").exists()
+        assert (dest / "LICENSE").exists()
 
     def test_install_creates_backup(self, tmp_path, monkeypatch):
         monkeypatch.setattr(release, "_verified", True)

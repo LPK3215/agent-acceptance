@@ -17,7 +17,7 @@ agent-acceptance 是对 AI Agent / 多 Agent 项目做工程验收与定档的�
 - **重度（高级检查）**：中度 + 3-5 + 6-9 -> 10（完整验收报告，分批多轮）
 - **自动（AI 全扫后自选）**：AI 先读项目源码与文档，判断该跑哪个级别，可交叉，附带选级别理由
 
-用户可以直接选前三个级别，也可以选自动级别让 AI 全扫后决定。第 1 章定档问卷是入口，先问形态、技术栈、已有材料与自主度，1.1 四问不过则快速出口判 Demo 终止。
+用户可以直接选前三个级别，也可以选自动级别让 AI 全扫后决定。第 1 章定档问卷是入口，先问形态、技术栈、已有材料与自主度，1.1 四问不过则建议快速出口判 Demo；脚手架型 / SDK wrapper 型由检查者或用户决定是否按脚手架口径继续。
 
 ## 档位有哪些，凭什么定档？
 
@@ -37,8 +37,8 @@ agent-acceptance 是对 AI Agent / 多 Agent 项目做工程验收与定档的�
 
 ## 如何安装与使用？
 
-将本仓库内容放入支持 Agent Skills 规范的技能目录，CodeBuddy 对应 `~/.codebuddy/skills/agent-acceptance/`，重启或重载技能索引后即可按名触发。安装也可一键完成：`python scripts/release.py all`（校验 + 打包 + 安装本机）。用法见 README 的「检查级别与使用方式」段落，选一个级别复制对应开场白即可开始。
+将本仓库内容放入支持 Agent Skills 规范的技能目录：Claude Code 为 `~/.claude/skills/agent-acceptance/`，CodeBuddy 为 `~/.codebuddy/skills/agent-acceptance/`。重启或重载技能索引后即可按名触发。安装也可一键完成：`python scripts/release.py all`（校验 + 打包 + 安装本机已存在的技能目录）。用法见 README 的「检查级别与使用方式」段落，选一个级别复制对应开场白即可开始。
 
 ## 如何贡献？
 
-先读 CONTRIBUTING.md 与 docs/00 写作与引用规范。核心约束：判点号是稳定主键，改判据不动编号；新增检查面须过扩容三关（通用 / 公用 / 可判）；改动须仓库、发布物、本机三方同步；合入前 `python scripts/verify.py` 须 FAIL 0。
+先读 CONTRIBUTING.md 与 docs/00 写作与引用规范。核心约束：判点号是稳定主键，改判据不动编号；新增检查面须过扩容三关（通用 / 公用 / 可判）；改动须仓库、发布物、本机三方同步；合入前 `python scripts/verify.py` 须 FAIL 0，并跑 `python -m pytest tests/`。

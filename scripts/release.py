@@ -5,15 +5,17 @@
 参考 CodeBuddy 官方 skill-creator 的发布范式（quick_validate + package_skill），
 但按本仓库 docs/00 写作规范做差异化：
   - 校验复用 scripts/verify.py（比官方 quick_validate 更严：黑名单字符 / wikilink / 链接白名单 / ToC / 元数据三方一致）；
-  - 打包单元 = SKILL.md + skill.json + references/（docs/ scripts/ .codebuddy 等维护物不进发布物）；
+  - 打包单元 = SKILL.md + skill.json + LICENSE + references/（docs/ scripts/ .codebuddy 等维护物不进发布物）；
   - zip 顶层带技能目录名（agent-acceptance/），解压即得一个可直接加载的技能目录；
-  - 提供 install：一键装到本机 CodeBuddy 用户技能目录（~/.codebuddy/skills/<name>/）；
+  - 提供 install：一键装到本机已存在的技能目录
+    （CodeBuddy：~/.codebuddy/skills/<name>/；Claude Code：~/.claude/skills/<name>/）；
     若同名目录已存在，先保留带时间戳的备份，再切换至新目录。
 
 用法（任意目录执行均可，脚本按自身路径定位仓库根）：
   python scripts/release.py check      一键检验（等价 python scripts/verify.py）
   python scripts/release.py package    校验通过后打 zip 到 dist/agent-acceptance-<version>.zip
-  python scripts/release.py install    校验通过后装到本机 ~/.codebuddy/skills/agent-acceptance/
+  python scripts/release.py install    校验通过后装到本机已存在的技能目录
+    （CodeBuddy ~/.codebuddy/skills/<name>/ 与 Claude Code ~/.claude/skills/<name>/）
   python scripts/release.py all        按序执行 check -> package -> install（缺省子命令）
   python scripts/release.py package --dest 其它输出目录
   python scripts/release.py install --dest 其它技能目录（覆盖默认本机路径）
@@ -35,11 +37,32 @@ SKILL_NAME = ROOT.name                       # agent-acceptance（zip 顶层目�
 VERIFY = ROOT / "scripts" / "verify.py"
 SKILL_JSON = ROOT / "skill.json"
 DEFAULT_DIST = ROOT / "dist"
-DEFAULT_INSTALL = Path.home() / ".codebuddy" / "skills" / SKILL_NAME
-
-# 发布物清单（与 docs/00 打包边界一致：SKILL.md + skill.json + references/）
-RELEASE_FILES = ("SKILL.md", "skill.json")
+# 发布物清单（与 docs/00 打包边界一致：SKILL.md + skill.json + LICENSE + references/）
+RELEASE_FILES = ("SKILL.md", "skill.json", "LICENSE")
 RELEASE_DIRS = ("references",)
+
+
+def known_skill_parents():
+    """本机可能存在的技能父目录：CodeBuddy 与 Claude Code。"""
+    return (
+        Path.home() / ".codebuddy" / "skills",
+        Path.home() / ".claude" / "skills",
+    )
+
+
+def resolve_install_targets(dest):
+    """显式 --dest 用指定路径；否则装到本机已有助手的 skills 目录。
+
+    `.codebuddy/` 或 `.claude/` 存在即视为该助手已安装，即使其下 skills/ 尚未
+    创建也会一并建好。两者都没有时回落到 CodeBuddy 路径，保持历史默认。
+    """
+    if dest:
+        return [Path(dest).resolve()]
+    found = []
+    for parent in known_skill_parents():
+        if parent.exists() or parent.parent.exists():
+            found.append(parent / SKILL_NAME)
+    return found or [known_skill_parents()[0] / SKILL_NAME]
 
 
 def banner(text):
@@ -99,11 +122,8 @@ def cmd_package(dest):
     return 0
 
 
-def cmd_install(dest):
-    if not run_verify():
-        return 1
-    banner("第 2 步 / 安装到本机 CodeBuddy 用户技能目录")
-    target = Path(dest).resolve() if dest else DEFAULT_INSTALL
+def _install_one(target):
+    """把发布物装到一个技能目录；同名目录先备份。返回 0/1。"""
     if target == target.parent or not target.name:
         print("[FAIL] install 目标必须是一个具体技能目录，不能是文件系统根目录。")
         return 1
@@ -139,8 +159,22 @@ def cmd_install(dest):
     print("\n[OK] 已安装：%s" % target)
     if backup is not None:
         print("     原安装内容已保留为：%s" % backup)
-    print("     重启 CodeBuddy（或重载技能索引）后，即可用名称触发本技能。")
+    print("     重启对应的 AI 助手（或重载技能索引）后，即可用名称触发本技能。")
     return 0
+
+
+def cmd_install(dest):
+    if not run_verify():
+        return 1
+    banner("第 2 步 / 安装到本机技能目录")
+    targets = resolve_install_targets(dest)
+    rc = 0
+    for target in targets:
+        print("  [目标] %s" % target)
+        one = _install_one(target)
+        if one != 0:
+            rc = one
+    return rc
 
 
 def main():

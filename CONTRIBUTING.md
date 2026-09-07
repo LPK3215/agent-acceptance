@@ -11,7 +11,7 @@
 - `scripts/verify.py`：机械自检（发布门禁）
 - `scripts/release.py`：一键发布（校验 -> 打包 -> 安装本机，覆盖安装前保留备份）
 - `tests/`：维护脚本单元测试（pytest），覆盖 verify / release / 两个 SVG 生成脚本
-- `.github/workflows/verify.yml`：GitHub Actions 校验工作流（推送 main、PR、手动触发）
+- `.github/workflows/verify.yml`：GitHub Actions 校验工作流（推送 main、PR、手动触发），跑 `verify.py` 与 `pytest`
 
 ## 改动类型与对应流程
 
@@ -66,7 +66,7 @@
 
 - 提交信息用 `type: 简述` 前缀（`feat` / `fix` / `docs` / `refactor` / `chore`），中文描述。
 - 涉及判据正文的改动，提交信息须能反查改动点。
-- 合入主干前必跑 `python scripts/verify.py`，FAIL 0 为硬性放行条件（仅允许保留 WARN 级官方外链提示项）。
+- 合入主干前必跑 `python scripts/verify.py`（FAIL 0）与 `python -m pytest tests/`（仅允许保留 WARN 级官方外链提示项）。
 
 ## 发布流程
 

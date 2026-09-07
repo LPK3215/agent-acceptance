@@ -67,6 +67,12 @@ HARD_PROTOCOL_ANCHORS = (
     ("开跑先复述", "开跑复述钩子（第 0 步自证已读）"),
     ("references/01-范围、形态与档位.md", "入口必经章链接"),
     ("references/10-验收结论与档位.md", "收口必经章链接"),
+    ("快速出口（建议性", "1.1 快速出口建议性口径"),
+    ("可选出口", "脚手架型/SDK wrapper 快速出口可选"),
+    ("脚手架补件必指向附录 B", "脚手架改进必须回链附录 B 模板"),
+    ("附录 B **在包内**", "附录 B 包内状态（防再写成包外）"),
+    ("被检根目录", "被检对象是用户指定项目根，不是技能仓库根"),
+    ("验收快照", "定档须声明工作区或指定 commit，防默认同 HEAD"),
 )
 
 # R4 符号纪律：允许的中文标点 / 符号（码点白名单）；其余非 ASCII 一律报 FAIL
@@ -541,5 +547,18 @@ def main():
     sys.exit(1 if fails else 0)
 
 
+def configure_stdio():
+    """Windows 默认 GBK 控制台会把中文文件名打成乱码；尽量切到 UTF-8。"""
+    for stream in (sys.stdout, sys.stderr):
+        reconf = getattr(stream, "reconfigure", None)
+        if not callable(reconf):
+            continue
+        try:
+            reconf(encoding="utf-8", errors="replace")
+        except (OSError, ValueError):
+            pass
+
+
 if __name__ == "__main__":
+    configure_stdio()
     main()

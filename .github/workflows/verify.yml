@@ -20,3 +20,7 @@ jobs:
           python-version: '3.11'
       - name: Run repository verification
         run: python scripts/verify.py
+      - name: Run unit tests
+        run: |
+          python -m pip install pytest
+          python -m pytest tests/ -q
